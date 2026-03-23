@@ -333,7 +333,7 @@ Both MQTT and API devices include a **Device Type** dropdown:
 
 ## Credits & Acknowledgements
 
-This Homey app integrates the Itho CVE with the Itho module, designed by **Arjen Hiemstra** from **[NRG.Watch](https://www.nrgwatch.nl/)**, which makes the Itho CVE a smart device.
+This Homey app integrates the Itho CVE with the Itho module (designed by **Arjen Hiemstra** from **[NRG.Watch](https://www.nrgwatch.nl/)**) with your Homey, which makes the perfect end-to-end smart solution.
 
 > Arjen, thanks for the great work you did on the Itho module, I am using it already for a couple of years to full satisfaction!
 
