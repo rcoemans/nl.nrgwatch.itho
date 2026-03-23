@@ -12,6 +12,7 @@
     "en": "%",
     "nl": "%"
   },
+  "icon": "/assets/icons/performance.svg",
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",

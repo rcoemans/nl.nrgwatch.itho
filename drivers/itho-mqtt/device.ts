@@ -4,6 +4,7 @@ import Homey from 'homey';
 import IthoMqttClient from '../../lib/IthoMqttClient';
 import IthoStateNormalizer, { IthoStatusPayload, NormalizedState } from '../../lib/IthoStateNormalizer';
 import IthoCommandMapper, { IthoCommand } from '../../lib/IthoCommandMapper';
+import { AppLogger } from '../../lib/AppLogger';
 
 module.exports = class IthoMqttDevice extends Homey.Device {
 
@@ -16,11 +17,39 @@ module.exports = class IthoMqttDevice extends Homey.Device {
   private previousHumidity: number | null = null;
   private previousErrorCode: number = 0;
 
+  private get appLogger(): AppLogger {
+    return (this.homey.app as any).appLogger;
+  }
+
+  private appLog(message: string, level: 'info' | 'warn' | 'error' = 'info'): void {
+    if (this.appLogger) {
+      this.appLogger[level]('MQTT', message);
+    }
+  }
+
   async onInit() {
     this.log('Itho MQTT device has been initialized');
-    
-    await this.initializeMqttClient();
+    this.appLog('Device initialized');
+
+    const settings = this.getSettings();
+    this.log('Current settings:', JSON.stringify({
+      host: settings.mqtt_host,
+      port: settings.mqtt_port,
+      tls: settings.mqtt_tls,
+      baseTopic: settings.mqtt_base_topic,
+      username: settings.mqtt_username ? '(set)' : '(empty)',
+      useLWT: settings.mqtt_use_lwt
+    }));
+    this.appLog(`Settings loaded: host=${settings.mqtt_host}, port=${settings.mqtt_port}, topic=${settings.mqtt_base_topic}`);
+
     this.registerCapabilityListeners();
+
+    try {
+      await this.initializeMqttClient();
+    } catch (error) {
+      this.error('Failed during MQTT initialization:', error);
+      this.appLog(`Initialization failed: ${error}`, 'error');
+    }
   }
 
   async onSettings({ oldSettings, newSettings, changedKeys }: {
@@ -28,21 +57,17 @@ module.exports = class IthoMqttDevice extends Homey.Device {
     newSettings: { [key: string]: boolean | string | number | undefined | null };
     changedKeys: string[];
   }): Promise<string | void> {
-    this.log('Settings changed:', changedKeys);
+    this.log('Settings changed:', changedKeys.join(', '));
 
-    const mqttKeys = [
-      'mqtt_host', 'mqtt_port', 'mqtt_tls', 'mqtt_tls_insecure',
-      'mqtt_keepalive', 'mqtt_username', 'mqtt_password',
-      'mqtt_use_custom_client_id', 'mqtt_client_id',
-      'mqtt_base_topic', 'mqtt_use_lwt', 'mqtt_lwt_topic', 'mqtt_lwt_message'
-    ];
-
-    const mqttChanged = changedKeys.some(key => mqttKeys.includes(key));
-
-    if (mqttChanged) {
-      this.log('MQTT settings changed, reconnecting...');
-      await this.reconnectMqtt();
-    }
+    // Schedule reconnect after settings are persisted
+    this.homey.setTimeout(async () => {
+      this.log('Reconnecting MQTT after settings change...');
+      try {
+        await this.reconnectMqtt();
+      } catch (error) {
+        this.error('Failed to reconnect after settings change:', error);
+      }
+    }, 1000);
   }
 
   async onDeleted() {
@@ -72,18 +97,23 @@ module.exports = class IthoMqttDevice extends Homey.Device {
     });
 
     try {
+      this.appLog(`Connecting to broker ${settings.mqtt_host}:${settings.mqtt_port}`);
       await this.mqttClient.connect();
+      this.appLog('Connected to broker');
       this.subscribeToTopics();
     } catch (error) {
       this.error('Failed to initialize MQTT client:', error);
+      this.appLog(`Connection failed: ${error}`, 'error');
       await this.setUnavailable('Failed to connect to MQTT broker');
     }
   }
 
   private async reconnectMqtt() {
+    this.appLog('Reconnecting...');
     if (this.mqttClient) {
       this.unsubscribeFromAllTopics();
       await this.mqttClient.disconnect();
+      this.appLog('Disconnected from broker');
     }
     await this.initializeMqttClient();
   }
@@ -99,6 +129,7 @@ module.exports = class IthoMqttDevice extends Homey.Device {
     };
     this.messageHandlers.set(statusTopic, statusHandler);
     this.mqttClient.subscribe(statusTopic, statusHandler);
+    this.appLog(`Subscription added ${statusTopic}`);
 
     const stateTopic = `${baseTopic}/state`;
     const stateHandler = (topic: string, message: Buffer) => {
@@ -106,6 +137,7 @@ module.exports = class IthoMqttDevice extends Homey.Device {
     };
     this.messageHandlers.set(stateTopic, stateHandler);
     this.mqttClient.subscribe(stateTopic, stateHandler);
+    this.appLog(`Subscription added ${stateTopic}`);
 
     const lwtTopic = `${baseTopic}/lwt`;
     const lwtHandler = (topic: string, message: Buffer) => {
@@ -113,6 +145,7 @@ module.exports = class IthoMqttDevice extends Homey.Device {
     };
     this.messageHandlers.set(lwtTopic, lwtHandler);
     this.mqttClient.subscribe(lwtTopic, lwtHandler);
+    this.appLog(`Subscription added ${lwtTopic}`);
 
     const lastcmdTopic = `${baseTopic}/lastcmd`;
     const lastcmdHandler = (topic: string, message: Buffer) => {
@@ -120,6 +153,7 @@ module.exports = class IthoMqttDevice extends Homey.Device {
     };
     this.messageHandlers.set(lastcmdTopic, lastcmdHandler);
     this.mqttClient.subscribe(lastcmdTopic, lastcmdHandler);
+    this.appLog(`Subscription added ${lastcmdTopic}`);
   }
 
   private unsubscribeFromAllTopics() {
@@ -293,6 +327,20 @@ module.exports = class IthoMqttDevice extends Homey.Device {
     if (this.currentState.startupCounter !== null) {
       this.setCapabilityValue('itho_startup_counter', this.currentState.startupCounter).catch(this.error);
     }
+
+    if (this.currentState.absoluteHumidity !== null) {
+      this.setCapabilityValue('itho_absolute_humidity', this.currentState.absoluteHumidity).catch(this.error);
+    }
+
+    if (this.currentState.supplyTemperature !== null) {
+      this.setCapabilityValue('itho_supply_temperature', this.currentState.supplyTemperature).catch(this.error);
+    }
+
+    if (this.currentState.exhaustTemperature !== null) {
+      this.setCapabilityValue('itho_exhaust_temperature', this.currentState.exhaustTemperature).catch(this.error);
+    }
+
+    this.setCapabilityValue('itho_online', this.currentState.online).catch(this.error);
   }
 
   private registerCapabilityListeners() {

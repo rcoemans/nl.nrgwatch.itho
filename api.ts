@@ -1,16 +1,66 @@
 'use strict';
 
 module.exports = {
-  
-  async getLog({ homey, params }: { homey: any, params: { deviceId: string } }) {
-    const device = await homey.drivers.getDevice({ id: params.deviceId });
-    
-    if (device && typeof (device as any).getMqttLog === 'function') {
-      const log = (device as any).getMqttLog();
-      return { log: log.join('\n') };
+
+  async getLogs({ homey }: { homey: any }) {
+    try {
+      const app = homey.app;
+      if (!app || !app.appLogger) {
+        return 'App logger not yet initialized.';
+      }
+      return app.appLogger.getLogsAsText() || 'No log entries yet.';
+    } catch (e: any) {
+      return 'Error: ' + (e.message || String(e));
     }
-    
-    return { log: 'No log available' };
+  },
+
+  async getLogsMqtt({ homey }: { homey: any }) {
+    try {
+      const app = homey.app;
+      if (!app || !app.appLogger) {
+        return 'App logger not yet initialized.';
+      }
+      return app.appLogger.getLogsAsText('MQTT') || 'No log entries yet.';
+    } catch (e: any) {
+      return 'Error: ' + (e.message || String(e));
+    }
+  },
+
+  async getLogsApi({ homey }: { homey: any }) {
+    try {
+      const app = homey.app;
+      if (!app || !app.appLogger) {
+        return 'App logger not yet initialized.';
+      }
+      return app.appLogger.getLogsAsText('API') || 'No log entries yet.';
+    } catch (e: any) {
+      return 'Error: ' + (e.message || String(e));
+    }
+  },
+
+  async getLogsApp({ homey }: { homey: any }) {
+    try {
+      const app = homey.app;
+      if (!app || !app.appLogger) {
+        return 'App logger not yet initialized.';
+      }
+      return app.appLogger.getLogsAsText('App') || 'No log entries yet.';
+    } catch (e: any) {
+      return 'Error: ' + (e.message || String(e));
+    }
+  },
+
+  async clearLogs({ homey }: { homey: any }) {
+    try {
+      const app = homey.app;
+      if (!app || !app.appLogger) {
+        return 'App logger not yet initialized.';
+      }
+      app.appLogger.clear();
+      return 'Logs cleared.';
+    } catch (e: any) {
+      return 'Error: ' + (e.message || String(e));
+    }
   }
 
 };

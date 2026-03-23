@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 16px;
+      background: transparent;
+      color: #333;
+    }
+    h2 {
+      margin: 0 0 12px 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .controls {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    select, button {
+      font-family: inherit;
+      font-size: 13px;
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+    }
+    button {
+      background: #FFA500;
+      color: #fff;
+      border-color: #FFA500;
+      font-weight: 500;
+    }
+    button:hover {
+      background: #e69500;
+      border-color: #e69500;
+    }
+    button.secondary {
+      background: #f5f5f5;
+      color: #333;
+      border-color: #ccc;
+    }
+    button.secondary:hover {
+      background: #eee;
+    }
+    #log-area {
+      width: 100%;
+      min-height: 300px;
+      max-height: 500px;
+      overflow: auto;
+      background: #1e1e1e;
+      color: #d4d4d4;
+      font-family: 'Menlo', 'Consolas', 'Courier New', monospace;
+      font-size: 11px;
+      line-height: 1.5;
+      padding: 12px;
+      border-radius: 8px;
+      white-space: pre;
+      box-sizing: border-box;
+    }
+    .status {
+      font-size: 12px;
+      color: #888;
+      margin-top: 8px;
+    }
+  </style>
+  <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
+</head>
+<body>
+  <h2>Device Logs</h2>
+  <div class="controls">
+    <select id="source-filter">
+      <option value="">All sources</option>
+      <option value="App">App</option>
+      <option value="MQTT">MQTT Device</option>
+      <option value="API">API Device</option>
+    </select>
+    <button id="btn-refresh" onclick="refreshLogs()">Retrieve Logs</button>
+    <button id="btn-clear" class="secondary" onclick="clearLogs()">Clear Logs</button>
+  </div>
+  <div id="log-area">Click "Retrieve Logs" to load log entries.</div>
+  <div class="status" id="status-text"></div>
+
+  <script>
+    var _homey = null;
+
+    var sourceEndpoints = {
+      '': '/getLogs',
+      'App': '/getLogsApp',
+      'MQTT': '/getLogsMqtt',
+      'API': '/getLogsApi'
+    };
+
+    function onHomeyReady(Homey) {
+      _homey = Homey;
+      Homey.ready();
+      setTimeout(function() { refreshLogs(); }, 200);
+    }
+
+    function refreshLogs() {
+      if (!_homey) return;
+      try {
+        var source = document.getElementById('source-filter').value;
+        var endpoint = sourceEndpoints[source] || '/getLogs';
+        var statusEl = document.getElementById('status-text');
+        statusEl.textContent = 'Loading...';
+
+        _homey.api('GET', endpoint, function(err, result) {
+          var logArea = document.getElementById('log-area');
+          if (err) {
+            logArea.textContent = 'Error: ' + (err.message || JSON.stringify(err));
+            statusEl.textContent = 'Error loading logs.';
+          } else {
+            logArea.textContent = result || 'No log entries yet.';
+            logArea.scrollTop = logArea.scrollHeight;
+            var lines = (result || '').split('\n').filter(function(l) { return l.length > 0; });
+            statusEl.textContent = lines.length + ' log entries loaded at ' + new Date().toLocaleTimeString();
+          }
+        });
+      } catch (e) {
+        document.getElementById('log-area').textContent = 'JS Error: ' + e.message;
+      }
+    }
+
+    function clearLogs() {
+      if (!_homey) return;
+      try {
+        _homey.api('GET', '/clearLogs', function(err) {
+          if (!err) { refreshLogs(); }
+        });
+      } catch (e) {
+        document.getElementById('log-area').textContent = 'JS Error: ' + e.message;
+      }
+    }
+  </script>
+</body>
+</html>

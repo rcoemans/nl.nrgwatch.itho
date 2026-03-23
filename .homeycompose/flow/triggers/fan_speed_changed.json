@@ -3,6 +3,13 @@
     "en": "The fan speed changed",
     "nl": "De ventilatorsnelheid is veranderd"
   },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    }
+  ],
   "tokens": [
     {
       "name": "speed_raw",

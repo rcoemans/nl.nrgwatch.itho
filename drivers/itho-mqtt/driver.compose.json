@@ -5,10 +5,14 @@
   },
   "class": "fan",
   "capabilities": [
+    "itho_online",
     "itho_fan_preset",
     "itho_fan_speed_raw",
     "measure_temperature",
     "measure_humidity",
+    "itho_absolute_humidity",
+    "itho_supply_temperature",
+    "itho_exhaust_temperature",
     "itho_fan_speed_rpm",
     "itho_fan_setpoint_rpm",
     "itho_ventilation_setpoint",
@@ -17,16 +21,10 @@
     "itho_startup_counter"
   ],
   "capabilitiesOptions": {
-    "itho_fan_preset": {
+    "measure_temperature": {
       "title": {
-        "en": "Fan Preset",
-        "nl": "Ventilator Preset"
-      }
-    },
-    "itho_fan_speed_raw": {
-      "title": {
-        "en": "Fan Speed (Raw)",
-        "nl": "Ventilatorsnelheid (Raw)"
+        "en": "Indoor Temperature",
+        "nl": "Binnentemperatuur"
       }
     }
   },
@@ -55,6 +53,44 @@
     }
   ],
   "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "Device Type",
+        "nl": "Apparaat Type"
+      },
+      "children": [
+        {
+          "id": "device_type",
+          "type": "dropdown",
+          "label": {
+            "en": "Itho device type",
+            "nl": "Itho apparaat type"
+          },
+          "value": "default",
+          "hint": {
+            "en": "Select the type of Itho device connected. This determines which fan presets are available.",
+            "nl": "Selecteer het type Itho apparaat dat is aangesloten. Dit bepaalt welke ventilator presets beschikbaar zijn."
+          },
+          "values": [
+            {
+              "id": "default",
+              "label": {
+                "en": "Default (HRU200 / CVE)",
+                "nl": "Standaard (HRU200 / CVE)"
+              }
+            },
+            {
+              "id": "cc1101",
+              "label": {
+                "en": "CC1101 RF module (full preset support)",
+                "nl": "CC1101 RF module (volledige preset ondersteuning)"
+              }
+            }
+          ]
+        }
+      ]
+    },
     {
       "type": "group",
       "label": {
@@ -198,23 +234,6 @@
     {
       "type": "group",
       "label": {
-        "en": "LWT Help Text",
-        "nl": "LWT Hulptekst"
-      },
-      "children": [
-        {
-          "id": "lwt_help",
-          "type": "label",
-          "label": {
-            "en": "LWT in MQTT stands for Last Will and Testament. It is a core feature of the MQTT protocol designed for IoT and messaging applications to detect when a client disconnects unexpectedly from the MQTT broker.",
-            "nl": "LWT in MQTT staat voor Last Will and Testament. Het is een kernfunctie van het MQTT-protocol, ontworpen voor IoT- en berichtenapplicaties om te detecteren wanneer een client onverwacht de verbinding met de MQTT-broker verbreekt."
-          }
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
         "en": "LWT Configuration",
         "nl": "LWT Configuratie"
       },
@@ -249,23 +268,6 @@
             "nl": "LWT bericht"
           },
           "value": ""
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "MQTT Broker Log",
-        "nl": "MQTT Broker Log"
-      },
-      "children": [
-        {
-          "id": "mqtt_log",
-          "type": "label",
-          "label": {
-            "en": "View connection log in the Homey app logs.",
-            "nl": "Bekijk verbindingslog in de Homey app logs."
-          }
         }
       ]
     }

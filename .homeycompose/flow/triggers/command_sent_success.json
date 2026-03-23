@@ -3,6 +3,13 @@
     "en": "A command was sent successfully",
     "nl": "Een commando is succesvol verzonden"
   },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    }
+  ],
   "tokens": [
     {
       "name": "command_name",

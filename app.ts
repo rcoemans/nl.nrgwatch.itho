@@ -1,12 +1,18 @@
 'use strict';
 
 import Homey from 'homey';
+import { AppLogger } from './lib/AppLogger';
 
 module.exports = class NRGWatchIthoApp extends Homey.App {
 
+  public appLogger!: AppLogger;
+
   async onInit() {
     this.log('NRG.Watch Itho add-on has been initialized');
-    
+
+    this.appLogger = new AppLogger(500);
+    this.appLogger.info('App', 'NRG.Watch Itho add-on initialized');
+
     this.registerFlowCards();
   }
 

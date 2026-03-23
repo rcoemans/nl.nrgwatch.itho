@@ -1,0 +1,22 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Absolute Humidity",
+    "nl": "Absolute Luchtvochtigheid"
+  },
+  "desc": {
+    "en": "Absolute humidity",
+    "nl": "Absolute luchtvochtigheid"
+  },
+  "units": {
+    "en": "g/m³",
+    "nl": "g/m³"
+  },
+  "icon": "/assets/icons/humidity.svg",
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "min": 0,
+  "max": 100,
+  "decimals": 1
+}

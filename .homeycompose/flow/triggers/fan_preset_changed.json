@@ -3,6 +3,13 @@
     "en": "The fan preset changed",
     "nl": "De ventilator preset is veranderd"
   },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    }
+  ],
   "tokens": [
     {
       "name": "preset",

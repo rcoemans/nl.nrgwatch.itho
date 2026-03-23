@@ -36,6 +36,28 @@
   "bugs": {
     "url": "https://github.com/rcoemans/nl.nrgwatch.itho/issues"
   },
+  "api": {
+    "getLogs": {
+      "method": "GET",
+      "path": "/getLogs"
+    },
+    "getLogsMqtt": {
+      "method": "GET",
+      "path": "/getLogsMqtt"
+    },
+    "getLogsApi": {
+      "method": "GET",
+      "path": "/getLogsApi"
+    },
+    "getLogsApp": {
+      "method": "GET",
+      "path": "/getLogsApp"
+    },
+    "clearLogs": {
+      "method": "GET",
+      "path": "/clearLogs"
+    }
+  },
   "flow": {
     "triggers": [
       {
@@ -43,6 +65,13 @@
           "en": "A command failed",
           "nl": "Een commando is mislukt"
         },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          }
+        ],
         "tokens": [
           {
             "name": "command_name",
@@ -84,6 +113,13 @@
           "en": "A command was sent successfully",
           "nl": "Een commando is succesvol verzonden"
         },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          }
+        ],
         "tokens": [
           {
             "name": "command_name",
@@ -117,6 +153,13 @@
           "en": "The Itho device went offline",
           "nl": "Het Itho apparaat is offline gegaan"
         },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          }
+        ],
         "tokens": [
           {
             "name": "device_name",
@@ -142,6 +185,13 @@
           "en": "The Itho device came online",
           "nl": "Het Itho apparaat is online gekomen"
         },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          }
+        ],
         "tokens": [
           {
             "name": "device_name",
@@ -167,6 +217,13 @@
           "en": "The error state changed",
           "nl": "De foutstatus is veranderd"
         },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          }
+        ],
         "tokens": [
           {
             "name": "error_code",
@@ -192,6 +249,13 @@
           "en": "The fan preset changed",
           "nl": "De ventilator preset is veranderd"
         },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          }
+        ],
         "tokens": [
           {
             "name": "preset",
@@ -217,6 +281,13 @@
           "en": "The fan speed changed",
           "nl": "De ventilatorsnelheid is veranderd"
         },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          }
+        ],
         "tokens": [
           {
             "name": "speed_raw",
@@ -250,6 +321,13 @@
           "en": "The humidity changed",
           "nl": "De luchtvochtigheid is veranderd"
         },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          }
+        ],
         "tokens": [
           {
             "name": "humidity",
@@ -355,6 +433,13 @@
           "en": "The temperature changed",
           "nl": "De temperatuur is veranderd"
         },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          }
+        ],
         "tokens": [
           {
             "name": "temperature",
@@ -1169,10 +1254,14 @@
       },
       "class": "fan",
       "capabilities": [
+        "itho_online",
         "itho_fan_preset",
         "itho_fan_speed_raw",
         "measure_temperature",
         "measure_humidity",
+        "itho_absolute_humidity",
+        "itho_supply_temperature",
+        "itho_exhaust_temperature",
         "itho_fan_speed_rpm",
         "itho_fan_setpoint_rpm",
         "itho_ventilation_setpoint",
@@ -1181,16 +1270,10 @@
         "itho_startup_counter"
       ],
       "capabilitiesOptions": {
-        "itho_fan_preset": {
+        "measure_temperature": {
           "title": {
-            "en": "Fan Preset",
-            "nl": "Ventilator Preset"
-          }
-        },
-        "itho_fan_speed_raw": {
-          "title": {
-            "en": "Fan Speed (Raw)",
-            "nl": "Ventilatorsnelheid (Raw)"
+            "en": "Indoor Temperature",
+            "nl": "Binnentemperatuur"
           }
         }
       },
@@ -1219,6 +1302,44 @@
         }
       ],
       "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Device Type",
+            "nl": "Apparaat Type"
+          },
+          "children": [
+            {
+              "id": "device_type",
+              "type": "dropdown",
+              "label": {
+                "en": "Itho device type",
+                "nl": "Itho apparaat type"
+              },
+              "value": "default",
+              "hint": {
+                "en": "Select the type of Itho device connected. This determines which fan presets are available.",
+                "nl": "Selecteer het type Itho apparaat dat is aangesloten. Dit bepaalt welke ventilator presets beschikbaar zijn."
+              },
+              "values": [
+                {
+                  "id": "default",
+                  "label": {
+                    "en": "Default (HRU200 / CVE)",
+                    "nl": "Standaard (HRU200 / CVE)"
+                  }
+                },
+                {
+                  "id": "cc1101",
+                  "label": {
+                    "en": "CC1101 RF module (full preset support)",
+                    "nl": "CC1101 RF module (volledige preset ondersteuning)"
+                  }
+                }
+              ]
+            }
+          ]
+        },
         {
           "type": "group",
           "label": {
@@ -1284,10 +1405,14 @@
       },
       "class": "fan",
       "capabilities": [
+        "itho_online",
         "itho_fan_preset",
         "itho_fan_speed_raw",
         "measure_temperature",
         "measure_humidity",
+        "itho_absolute_humidity",
+        "itho_supply_temperature",
+        "itho_exhaust_temperature",
         "itho_fan_speed_rpm",
         "itho_fan_setpoint_rpm",
         "itho_ventilation_setpoint",
@@ -1296,16 +1421,10 @@
         "itho_startup_counter"
       ],
       "capabilitiesOptions": {
-        "itho_fan_preset": {
+        "measure_temperature": {
           "title": {
-            "en": "Fan Preset",
-            "nl": "Ventilator Preset"
-          }
-        },
-        "itho_fan_speed_raw": {
-          "title": {
-            "en": "Fan Speed (Raw)",
-            "nl": "Ventilatorsnelheid (Raw)"
+            "en": "Indoor Temperature",
+            "nl": "Binnentemperatuur"
           }
         }
       },
@@ -1334,6 +1453,44 @@
         }
       ],
       "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Device Type",
+            "nl": "Apparaat Type"
+          },
+          "children": [
+            {
+              "id": "device_type",
+              "type": "dropdown",
+              "label": {
+                "en": "Itho device type",
+                "nl": "Itho apparaat type"
+              },
+              "value": "default",
+              "hint": {
+                "en": "Select the type of Itho device connected. This determines which fan presets are available.",
+                "nl": "Selecteer het type Itho apparaat dat is aangesloten. Dit bepaalt welke ventilator presets beschikbaar zijn."
+              },
+              "values": [
+                {
+                  "id": "default",
+                  "label": {
+                    "en": "Default (HRU200 / CVE)",
+                    "nl": "Standaard (HRU200 / CVE)"
+                  }
+                },
+                {
+                  "id": "cc1101",
+                  "label": {
+                    "en": "CC1101 RF module (full preset support)",
+                    "nl": "CC1101 RF module (volledige preset ondersteuning)"
+                  }
+                }
+              ]
+            }
+          ]
+        },
         {
           "type": "group",
           "label": {
@@ -1477,23 +1634,6 @@
         {
           "type": "group",
           "label": {
-            "en": "LWT Help Text",
-            "nl": "LWT Hulptekst"
-          },
-          "children": [
-            {
-              "id": "lwt_help",
-              "type": "label",
-              "label": {
-                "en": "LWT in MQTT stands for Last Will and Testament. It is a core feature of the MQTT protocol designed for IoT and messaging applications to detect when a client disconnects unexpectedly from the MQTT broker.",
-                "nl": "LWT in MQTT staat voor Last Will and Testament. Het is een kernfunctie van het MQTT-protocol, ontworpen voor IoT- en berichtenapplicaties om te detecteren wanneer een client onverwacht de verbinding met de MQTT-broker verbreekt."
-              }
-            }
-          ]
-        },
-        {
-          "type": "group",
-          "label": {
             "en": "LWT Configuration",
             "nl": "LWT Configuratie"
           },
@@ -1530,29 +1670,34 @@
               "value": ""
             }
           ]
-        },
-        {
-          "type": "group",
-          "label": {
-            "en": "MQTT Broker Log",
-            "nl": "MQTT Broker Log"
-          },
-          "children": [
-            {
-              "id": "mqtt_log",
-              "type": "label",
-              "label": {
-                "en": "View connection log in the Homey app logs.",
-                "nl": "Bekijk verbindingslog in de Homey app logs."
-              }
-            }
-          ]
         }
       ],
       "id": "itho-mqtt"
     }
   ],
   "capabilities": {
+    "itho_absolute_humidity": {
+      "type": "number",
+      "title": {
+        "en": "Absolute Humidity",
+        "nl": "Absolute Luchtvochtigheid"
+      },
+      "desc": {
+        "en": "Absolute humidity",
+        "nl": "Absolute luchtvochtigheid"
+      },
+      "units": {
+        "en": "g/m³",
+        "nl": "g/m³"
+      },
+      "icon": "/assets/icons/humidity.svg",
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "min": 0,
+      "max": 100,
+      "decimals": 1
+    },
     "itho_error_code": {
       "type": "number",
       "title": {
@@ -1567,12 +1712,33 @@
         "en": "",
         "nl": ""
       },
+      "icon": "/assets/icons/alarm.svg",
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
       "min": 0,
       "max": 255,
       "decimals": 0
+    },
+    "itho_exhaust_temperature": {
+      "type": "number",
+      "title": {
+        "en": "Exhaust Temperature",
+        "nl": "Afvoertemperatuur"
+      },
+      "desc": {
+        "en": "Exhaust air temperature",
+        "nl": "Afvoerlucht temperatuur"
+      },
+      "units": {
+        "en": "°C",
+        "nl": "°C"
+      },
+      "icon": "/assets/icons/thermometer.svg",
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "decimals": 1
     },
     "itho_fan_preset": {
       "type": "enum",
@@ -1681,6 +1847,7 @@
         "en": "rpm",
         "nl": "rpm"
       },
+      "icon": "/assets/icons/performance.svg",
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
@@ -1691,17 +1858,18 @@
     "itho_fan_speed_raw": {
       "type": "number",
       "title": {
-        "en": "Fan Speed (Raw)",
-        "nl": "Ventilatorsnelheid (Raw)"
+        "en": "Speed State (0-255)",
+        "nl": "Snelheidsstatus (0-255)"
       },
       "desc": {
-        "en": "Current fan speed (0-255)",
-        "nl": "Huidige ventilatorsnelheid (0-255)"
+        "en": "Current speed state value (0-255)",
+        "nl": "Huidige snelheidsstatuswaarde (0-255)"
       },
       "units": {
         "en": "",
         "nl": ""
       },
+      "icon": "/assets/icons/performance.svg",
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
@@ -1724,12 +1892,29 @@
         "en": "rpm",
         "nl": "rpm"
       },
+      "icon": "/assets/icons/performance.svg",
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
       "min": 0,
       "max": 3000,
       "decimals": 0
+    },
+    "itho_online": {
+      "type": "boolean",
+      "title": {
+        "en": "Online",
+        "nl": "Online"
+      },
+      "desc": {
+        "en": "Whether the device is online",
+        "nl": "Of het apparaat online is"
+      },
+      "icon": "/assets/icons/on-off-button.svg",
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": false
     },
     "itho_startup_counter": {
       "type": "number",
@@ -1745,11 +1930,32 @@
         "en": "",
         "nl": ""
       },
+      "icon": "/assets/icons/counter.svg",
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
       "min": 0,
       "decimals": 0
+    },
+    "itho_supply_temperature": {
+      "type": "number",
+      "title": {
+        "en": "Supply Temperature",
+        "nl": "Aanvoertemperatuur"
+      },
+      "desc": {
+        "en": "Supply air temperature",
+        "nl": "Aanvoerlucht temperatuur"
+      },
+      "units": {
+        "en": "°C",
+        "nl": "°C"
+      },
+      "icon": "/assets/icons/thermometer.svg",
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "decimals": 1
     },
     "itho_total_operation": {
       "type": "number",
@@ -1765,6 +1971,7 @@
         "en": "h",
         "nl": "u"
       },
+      "icon": "/assets/icons/graph.svg",
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
@@ -1785,6 +1992,7 @@
         "en": "%",
         "nl": "%"
       },
+      "icon": "/assets/icons/performance.svg",
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",

@@ -1,17 +1,18 @@
 {
   "type": "number",
   "title": {
-    "en": "Fan Speed (Raw)",
-    "nl": "Ventilatorsnelheid (Raw)"
+    "en": "Speed State (0-255)",
+    "nl": "Snelheidsstatus (0-255)"
   },
   "desc": {
-    "en": "Current fan speed (0-255)",
-    "nl": "Huidige ventilatorsnelheid (0-255)"
+    "en": "Current speed state value (0-255)",
+    "nl": "Huidige snelheidsstatuswaarde (0-255)"
   },
   "units": {
     "en": "",
     "nl": ""
   },
+  "icon": "/assets/icons/performance.svg",
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",

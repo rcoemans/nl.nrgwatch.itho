@@ -3,6 +3,13 @@
     "en": "A command failed",
     "nl": "Een commando is mislukt"
   },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    }
+  ],
   "tokens": [
     {
       "name": "command_name",

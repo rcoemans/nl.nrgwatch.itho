@@ -34,5 +34,27 @@
   "source": "https://github.com/rcoemans/nl.nrgwatch.itho",
   "bugs": {
     "url": "https://github.com/rcoemans/nl.nrgwatch.itho/issues"
+  },
+  "api": {
+    "getLogs": {
+      "method": "GET",
+      "path": "/getLogs"
+    },
+    "getLogsMqtt": {
+      "method": "GET",
+      "path": "/getLogsMqtt"
+    },
+    "getLogsApi": {
+      "method": "GET",
+      "path": "/getLogsApi"
+    },
+    "getLogsApp": {
+      "method": "GET",
+      "path": "/getLogsApp"
+    },
+    "clearLogs": {
+      "method": "GET",
+      "path": "/clearLogs"
+    }
   }
 }

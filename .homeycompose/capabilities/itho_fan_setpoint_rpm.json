@@ -12,6 +12,7 @@
     "en": "rpm",
     "nl": "rpm"
   },
+  "icon": "/assets/icons/performance.svg",
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",

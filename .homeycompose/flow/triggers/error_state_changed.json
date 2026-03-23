@@ -3,6 +3,13 @@
     "en": "The error state changed",
     "nl": "De foutstatus is veranderd"
   },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    }
+  ],
   "tokens": [
     {
       "name": "error_code",

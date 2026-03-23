@@ -1,0 +1,20 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Supply Temperature",
+    "nl": "Aanvoertemperatuur"
+  },
+  "desc": {
+    "en": "Supply air temperature",
+    "nl": "Aanvoerlucht temperatuur"
+  },
+  "units": {
+    "en": "°C",
+    "nl": "°C"
+  },
+  "icon": "/assets/icons/thermometer.svg",
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "decimals": 1
+}

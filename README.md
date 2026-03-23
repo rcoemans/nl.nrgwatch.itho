@@ -1,7 +1,10 @@
 # NRG.Watch Itho add-on
 
-[![Homey App](https://img.shields.io/badge/Homey-App%20Store-00A94F?logo=homey)](https://homey.app/)
+[![Homey App](https://img.shields.io/badge/Homey-App%20Store-00A94F?logo=homey)](https://homey.app/en-nl/app/nl.nrgwatch.itho/NRG.Watch-Itho-add-on/)
+[![Homey App Test](https://img.shields.io/badge/Homey-Test%20App-FFA500?logo=homey)](https://homey.app/en-nl/app/nl.nrgwatch.itho/NRG.Watch-Itho-add-on/test/)
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
+
+> App has not yet been submitted for certification but is available via [test](https://homey.app/en-nl/app/nl.nrgwatch.itho/NRG.Watch-Itho-add-on/) link.
 
 Homey app for **Itho ventilation systems** via the **NRG.Watch Itho add-on**. Control and monitor your Itho ventilation through **MQTT** or **HTTP API** directly from Homey.
 
@@ -74,18 +77,24 @@ homey app install
 
 Both MQTT and API devices expose the same capabilities:
 
-| Capability | Description | Read/Write |
-|-----------|-------------|------------|
-| Fan Preset | Current fan preset (away, low, medium, high, auto, etc.) | Read + Write |
-| Fan Speed (Raw) | Raw fan speed value (0-255) | Read only |
-| Temperature | Indoor temperature | Read only |
-| Humidity | Indoor humidity | Read only |
-| Fan Speed (RPM) | Current fan speed in RPM | Read only |
-| Fan Setpoint (RPM) | Target fan speed in RPM | Read only |
-| Ventilation Setpoint | Ventilation setpoint percentage | Read only |
-| Error Code | Current error code (0 = no error) | Read only |
-| Total Operation Hours | Cumulative operation hours | Read only |
-| Startup Counter | Number of startups | Read only |
+| Capability | Description | Icon | Read/Write |
+|-----------|-------------|------|------------|
+| Online | Whether the device is online | On/off | Read only |
+| Fan Preset | Current fan preset (depends on device type) | - | Read + Write |
+| Speed State (0-255) | Raw speed state value | Speedometer | Read only |
+| Indoor Temperature | Indoor temperature | - | Read only |
+| Humidity | Indoor humidity | - | Read only |
+| Absolute Humidity | Absolute humidity (g/m³) | Water drop | Read only |
+| Supply Temperature | Supply air temperature | Thermometer | Read only |
+| Exhaust Temperature | Exhaust air temperature | Thermometer | Read only |
+| Fan Speed | Current fan speed in RPM | Speedometer | Read only |
+| Fan Setpoint | Target fan speed in RPM | Speedometer | Read only |
+| Ventilation Setpoint | Ventilation setpoint percentage | Speedometer | Read only |
+| Error Code | Current error code (0 = no error) | Alarm triangle | Read only |
+| Total Operation Hours | Cumulative operation hours | Bar chart | Read only |
+| Startup Counter | Number of startups | Counter | Read only |
+
+> **Note:** Supply Temperature, Exhaust Temperature, and Absolute Humidity are only shown when the Itho device reports these values.
 
 ## Flow Cards
 
@@ -199,12 +208,32 @@ AND humidity is above 75
 THEN set the fan preset to high
 ```
 
+## App Settings
+
+The app provides an **app-level settings page** accessible from the Homey app settings. This page includes:
+
+- **Device Logs**: View centralized logs from both MQTT and API devices
+- **Source Filter**: Filter logs by source (All, App, MQTT Device, API Device)
+- **Clear Logs**: Clear log entries
+
+Logs include timestamped entries for connections, subscriptions, polling, errors, and commands.
+
 ## Device Settings
+
+### Device Type
+
+Both MQTT and API devices include a **Device Type** dropdown:
+
+| Type | Description | Available Presets |
+|------|-------------|-------------------|
+| Default (HRU200 / CVE) | Standard Itho devices using PWM2I2C protocol | Low, Medium, High, Timer 1-3 |
+| CC1101 RF module | Devices with CC1101 RF module support | Away, Low, Medium, High, Auto, Auto Night, Cook 30, Cook 60, Timer 1-3 |
 
 ### MQTT Device Settings
 
 | Setting | Default | Description |
 |---------|---------|-------------|
+| Device type | Default | Itho device type (determines available presets) |
 | MQTT broker | localhost | IP address or DNS name of MQTT broker |
 | Port | 1883 | MQTT broker port |
 | Use TLS | Off | Enable secure connection |
@@ -220,6 +249,7 @@ THEN set the fan preset to high
 
 | Setting | Default | Description |
 |---------|---------|-------------|
+| Device type | Default | Itho device type (determines available presets) |
 | IP address or DNS | - | Address of NRG.Watch Itho add-on |
 | Username | - | API authentication username |
 | Password | - | API authentication password |
@@ -284,27 +314,32 @@ THEN set the fan preset to high
 1. Check MQTT broker is running and accessible
 2. Verify broker address and port in device settings
 3. Check username/password if authentication is enabled
-4. Review MQTT broker log in device settings
+4. Review logs in the **App Settings** page (filter by MQTT)
 
 ### API device shows unavailable
 
 1. Verify IP address of NRG.Watch Itho add-on
 2. Check network connectivity from Homey to add-on
 3. Verify username/password if required
-4. Try reducing poll interval
+4. Review logs in the **App Settings** page (filter by API)
+5. Try reducing poll interval
 
 ### Commands not working
 
-1. Verify your Itho model supports the command
+1. Verify your Itho model supports the command (check Device Type setting)
 2. Check device is online
 3. Review flow card logs for error messages
-4. For MQTT: check MQTT broker log
+4. Check the **App Settings** log page for detailed error information
 
 ## Credits & Acknowledgements
 
-This Homey app was created by **Robert Coemans** with assistance from **Claude** (Anthropic), built using **[Windsurf](https://windsurf.com)** — an AI-powered IDE for collaborative software development.
+This Homey app integrates the Itho CVE with the Itho module, designed by **Arjen Hiemstra** from **[NRG.Watch](https://www.nrgwatch.nl/)**, which makes the Itho CVE a smart device.
 
-If you like this, consider [buying me a coffee](https://buymeacoffee.com/kabxpqqg7z).
+> Arjen, thanks for the great work you did on the Itho module, I am using it already for a couple of years to full satisfaction!
+
+The Homey app was created by **Robert Coemans** with assistance from **Claude** (Anthropic), built using **[Windsurf](https://windsurf.com)** — an AI-powered IDE for collaborative software development.
+
+If you like this Homey app, consider [buying me a coffee](https://buymeacoffee.com/kabxpqqg7z), if you like it this means you already using the Itho module, in that case consider [buying Arjen a coffee](https://buymeacoffee.com/nrgwatch) as well.
 
 Pull requests and issue reports are welcome on [GitHub](https://github.com/rcoemans/nl.nrgwatch.itho/issues).
 

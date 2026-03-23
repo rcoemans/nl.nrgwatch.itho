@@ -16,6 +16,10 @@ export interface IthoStatusPayload {
   'Absence (min)'?: number;
   'Highest CO2 concentration (ppm)'?: number | string;
   'Highest RH concentration (%)'?: number;
+  'Supply temp (°C)'?: number;
+  'Exhaust temp (°C)'?: number;
+  'Absolute humidity (g/m3)'?: number;
+  [key: string]: any;
 }
 
 export interface NormalizedState {
@@ -26,6 +30,9 @@ export interface NormalizedState {
   preset: string | null;
   temperature: number | null;
   humidity: number | null;
+  absoluteHumidity: number | null;
+  supplyTemperature: number | null;
+  exhaustTemperature: number | null;
   co2: number | null;
   fanSpeedRpm: number | null;
   fanSetpointRpm: number | null;
@@ -54,6 +61,9 @@ export default class IthoStateNormalizer {
       preset: null,
       temperature: null,
       humidity: null,
+      absoluteHumidity: null,
+      supplyTemperature: null,
+      exhaustTemperature: null,
       co2: null,
       fanSpeedRpm: null,
       fanSetpointRpm: null,
@@ -80,6 +90,21 @@ export default class IthoStateNormalizer {
         state.humidity = Number(statusPayload.hum.toFixed(1));
       } else if (statusPayload.RelativeHumidity !== undefined) {
         state.humidity = Number(statusPayload.RelativeHumidity.toFixed(1));
+      }
+
+      // Absolute humidity
+      if (statusPayload['Absolute humidity (g/m3)'] !== undefined) {
+        state.absoluteHumidity = Number(Number(statusPayload['Absolute humidity (g/m3)']).toFixed(1));
+      }
+
+      // Supply temperature
+      if (statusPayload['Supply temp (°C)'] !== undefined) {
+        state.supplyTemperature = Number(Number(statusPayload['Supply temp (°C)']).toFixed(1));
+      }
+
+      // Exhaust temperature
+      if (statusPayload['Exhaust temp (°C)'] !== undefined) {
+        state.exhaustTemperature = Number(Number(statusPayload['Exhaust temp (°C)']).toFixed(1));
       }
 
       // CO2 / Air quality metric

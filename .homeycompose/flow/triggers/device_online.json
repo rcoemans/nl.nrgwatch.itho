@@ -3,6 +3,13 @@
     "en": "The Itho device came online",
     "nl": "Het Itho apparaat is online gekomen"
   },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    }
+  ],
   "tokens": [
     {
       "name": "device_name",

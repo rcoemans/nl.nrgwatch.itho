@@ -1,0 +1,16 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Online",
+    "nl": "Online"
+  },
+  "desc": {
+    "en": "Whether the device is online",
+    "nl": "Of het apparaat online is"
+  },
+  "icon": "/assets/icons/on-off-button.svg",
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": false
+}

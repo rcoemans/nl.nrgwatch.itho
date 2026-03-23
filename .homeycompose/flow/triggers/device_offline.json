@@ -3,6 +3,13 @@
     "en": "The Itho device went offline",
     "nl": "Het Itho apparaat is offline gegaan"
   },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    }
+  ],
   "tokens": [
     {
       "name": "device_name",

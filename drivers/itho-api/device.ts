@@ -1,12 +1,14 @@
 'use strict';
 
 import Homey from 'homey';
+import http from 'http';
 import IthoStateNormalizer, { IthoStatusPayload, NormalizedState } from '../../lib/IthoStateNormalizer';
 import IthoCommandMapper, { IthoCommand } from '../../lib/IthoCommandMapper';
+import { AppLogger } from '../../lib/AppLogger';
 
 module.exports = class IthoApiDevice extends Homey.Device {
 
-  private pollInterval?: NodeJS.Timeout;
+  private pollTimer?: NodeJS.Timeout;
   private currentState: NormalizedState | null = null;
   private previousSpeed: number = 0;
   private previousPreset: string | null = null;
@@ -16,9 +18,28 @@ module.exports = class IthoApiDevice extends Homey.Device {
   private failureCount: number = 0;
   private maxFailures: number = 3;
 
+  private get appLogger(): AppLogger {
+    return (this.homey.app as any).appLogger;
+  }
+
+  private appLog(message: string, level: 'info' | 'warn' | 'error' = 'info'): void {
+    if (this.appLogger) {
+      this.appLogger[level]('API', message);
+    }
+  }
+
   async onInit() {
     this.log('Itho API device has been initialized');
-    
+    this.appLog('Device initialized');
+
+    const settings = this.getSettings();
+    this.log('Current settings:', JSON.stringify({
+      host: settings.api_host,
+      username: settings.api_username ? '(set)' : '(empty)',
+      poll_interval: settings.api_poll_interval
+    }));
+    this.appLog(`Settings loaded: host=${settings.api_host}`);
+
     this.registerCapabilityListeners();
     this.startPolling();
   }
@@ -28,16 +49,15 @@ module.exports = class IthoApiDevice extends Homey.Device {
     newSettings: { [key: string]: boolean | string | number | undefined | null };
     changedKeys: string[];
   }): Promise<string | void> {
-    this.log('Settings changed:', changedKeys);
+    this.log('Settings changed:', changedKeys.join(', '));
 
-    if (changedKeys.includes('api_poll_interval')) {
-      this.stopPolling();
+    // Always restart polling when any setting changes
+    this.stopPolling();
+
+    // Schedule restart after settings are persisted
+    this.homey.setTimeout(() => {
       this.startPolling();
-    }
-
-    if (changedKeys.includes('api_host')) {
-      await this.pollDevice();
-    }
+    }, 1000);
   }
 
   async onDeleted() {
@@ -46,27 +66,59 @@ module.exports = class IthoApiDevice extends Homey.Device {
   }
 
   private startPolling() {
-    const pollInterval = (this.getSetting('api_poll_interval') as number || 15) * 1000;
-    
-    this.pollInterval = setInterval(() => {
-      this.pollDevice().catch(this.error);
-    }, pollInterval);
+    this.stopPolling();
 
-    this.pollDevice().catch(this.error);
+    const host = this.getSetting('api_host') as string;
+    if (!host) {
+      this.log('No API host configured, waiting for settings...');
+      return;
+    }
+
+    const intervalSec = (this.getSetting('api_poll_interval') as number) || 15;
+    this.log(`Starting polling every ${intervalSec}s to ${host}`);
+    this.appLog(`Polling started: ${host} every ${intervalSec}s`);
+
+    // Poll immediately
+    this.pollDevice().catch((err: Error) => this.error('Poll error:', err.message));
+
+    // Then poll on interval
+    this.pollTimer = this.homey.setInterval(() => {
+      this.pollDevice().catch((err: Error) => this.error('Poll error:', err.message));
+    }, intervalSec * 1000);
   }
 
   private stopPolling() {
-    if (this.pollInterval) {
-      clearInterval(this.pollInterval);
-      this.pollInterval = undefined;
+    if (this.pollTimer) {
+      this.homey.clearInterval(this.pollTimer);
+      this.pollTimer = undefined;
     }
+  }
+
+  private httpGet(url: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const request = http.get(url, (res) => {
+        let data = '';
+        res.on('data', (chunk: Buffer) => { data += chunk.toString(); });
+        res.on('end', () => {
+          if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
+            resolve(data);
+          } else {
+            reject(new Error(`HTTP ${res.statusCode}: ${data.substring(0, 200)}`));
+          }
+        });
+      });
+      request.on('error', (err: Error) => reject(err));
+      request.setTimeout(10000, () => {
+        request.destroy();
+        reject(new Error('Request timed out'));
+      });
+    });
   }
 
   private async pollDevice() {
     const host = this.getSetting('api_host') as string;
-    
+
     if (!host) {
-      this.log('No API host configured');
       return;
     }
 
@@ -78,18 +130,18 @@ module.exports = class IthoApiDevice extends Homey.Device {
       const statusUrl = this.buildApiUrl(baseUrl, 'ithostatus', username, password);
       const speedUrl = this.buildApiUrl(baseUrl, 'currentspeed', username, password);
 
-      const [statusResponse, speedResponse] = await Promise.all([
-        fetch(statusUrl),
-        fetch(speedUrl)
+      this.log(`Polling ${host}...`);
+
+      const [statusText, speedText] = await Promise.all([
+        this.httpGet(statusUrl),
+        this.httpGet(speedUrl)
       ]);
 
-      if (!statusResponse.ok || !speedResponse.ok) {
-        throw new Error(`API request failed: ${statusResponse.status} / ${speedResponse.status}`);
-      }
-
-      const statusData = await statusResponse.json() as IthoStatusPayload;
-      const speedText = await speedResponse.text();
+      const statusData: IthoStatusPayload = JSON.parse(statusText);
       const speedValue = parseInt(speedText.trim());
+
+      this.log(`Status keys: ${Object.keys(statusData).join(', ')}`);
+      this.log(`Speed value: ${speedValue}`);
 
       this.currentState = IthoStateNormalizer.normalize(
         statusData,
@@ -100,6 +152,8 @@ module.exports = class IthoApiDevice extends Homey.Device {
       this.updateCapabilitiesFromState();
 
       if (this.failureCount > 0) {
+        this.log('Connection restored after failures');
+        this.appLog('Connection restored after failures');
         await this.setAvailable();
         this.failureCount = 0;
       }
@@ -111,8 +165,8 @@ module.exports = class IthoApiDevice extends Homey.Device {
             speed_percent: Math.round((speedValue / 255) * 100),
             previous_speed_raw: this.previousSpeed
           })
-          .catch(this.error);
-        
+          .catch((e: Error) => this.error(e.message));
+
         this.previousSpeed = speedValue;
       }
 
@@ -123,17 +177,20 @@ module.exports = class IthoApiDevice extends Homey.Device {
             preset: preset,
             previous_preset: this.previousPreset || 'unknown'
           })
-          .catch(this.error);
-        
+          .catch((e: Error) => this.error(e.message));
+
         this.previousPreset = preset;
       }
 
     } catch (error) {
-      this.error('Failed to poll device:', error);
+      const msg = error instanceof Error ? error.message : String(error);
+      this.error(`Poll failed: ${msg}`);
+      this.appLog(`Poll failed: ${msg}`, 'error');
       this.failureCount++;
 
       if (this.failureCount >= this.maxFailures) {
-        await this.setUnavailable('Failed to connect to API');
+        this.appLog(`Device marked unavailable after ${this.failureCount} failures`, 'error');
+        await this.setUnavailable(`Failed to connect to API: ${msg}`);
       }
     }
   }
@@ -141,75 +198,66 @@ module.exports = class IthoApiDevice extends Homey.Device {
   private updateCapabilitiesFromState() {
     if (!this.currentState) return;
 
-    if (this.currentState.currentSpeed !== null) {
-      this.setCapabilityValue('itho_fan_speed_raw', this.currentState.currentSpeed).catch(this.error);
-    }
+    const s = this.currentState;
 
-    if (this.currentState.preset) {
-      this.setCapabilityValue('itho_fan_preset', this.currentState.preset).catch(this.error);
+    if (s.currentSpeed !== null) {
+      this.setCapabilityValue('itho_fan_speed_raw', s.currentSpeed).catch(this.error);
     }
-
-    if (this.currentState.temperature !== null) {
-      this.setCapabilityValue('measure_temperature', this.currentState.temperature).catch(this.error);
-      
-      if (this.currentState.temperature !== this.previousTemperature) {
+    if (s.preset) {
+      this.setCapabilityValue('itho_fan_preset', s.preset).catch(this.error);
+    }
+    if (s.temperature !== null) {
+      this.setCapabilityValue('measure_temperature', s.temperature).catch(this.error);
+      if (s.temperature !== this.previousTemperature) {
         this.homey.flow.getDeviceTriggerCard('temperature_changed')
-          .trigger(this, {
-            temperature: this.currentState.temperature,
-            previous_temperature: this.previousTemperature ?? 0
-          })
-          .catch(this.error);
-        this.previousTemperature = this.currentState.temperature;
+          .trigger(this, { temperature: s.temperature, previous_temperature: this.previousTemperature ?? 0 })
+          .catch((e: Error) => this.error(e.message));
+        this.previousTemperature = s.temperature;
       }
     }
-
-    if (this.currentState.humidity !== null) {
-      this.setCapabilityValue('measure_humidity', this.currentState.humidity).catch(this.error);
-      
-      if (this.currentState.humidity !== this.previousHumidity) {
+    if (s.humidity !== null) {
+      this.setCapabilityValue('measure_humidity', s.humidity).catch(this.error);
+      if (s.humidity !== this.previousHumidity) {
         this.homey.flow.getDeviceTriggerCard('humidity_changed')
-          .trigger(this, {
-            humidity: this.currentState.humidity,
-            previous_humidity: this.previousHumidity ?? 0
-          })
-          .catch(this.error);
-        this.previousHumidity = this.currentState.humidity;
+          .trigger(this, { humidity: s.humidity, previous_humidity: this.previousHumidity ?? 0 })
+          .catch((e: Error) => this.error(e.message));
+        this.previousHumidity = s.humidity;
       }
     }
-
-    if (this.currentState.fanSpeedRpm !== null) {
-      this.setCapabilityValue('itho_fan_speed_rpm', this.currentState.fanSpeedRpm).catch(this.error);
+    if (s.fanSpeedRpm !== null) {
+      this.setCapabilityValue('itho_fan_speed_rpm', s.fanSpeedRpm).catch(this.error);
     }
-
-    if (this.currentState.fanSetpointRpm !== null) {
-      this.setCapabilityValue('itho_fan_setpoint_rpm', this.currentState.fanSetpointRpm).catch(this.error);
+    if (s.fanSetpointRpm !== null) {
+      this.setCapabilityValue('itho_fan_setpoint_rpm', s.fanSetpointRpm).catch(this.error);
     }
-
-    if (this.currentState.ventilationSetpointPct !== null) {
-      this.setCapabilityValue('itho_ventilation_setpoint', this.currentState.ventilationSetpointPct).catch(this.error);
+    if (s.ventilationSetpointPct !== null) {
+      this.setCapabilityValue('itho_ventilation_setpoint', s.ventilationSetpointPct).catch(this.error);
     }
-
-    if (this.currentState.errorCode !== null) {
-      this.setCapabilityValue('itho_error_code', this.currentState.errorCode).catch(this.error);
-      
-      if (this.currentState.errorCode !== this.previousErrorCode) {
+    if (s.errorCode !== null) {
+      this.setCapabilityValue('itho_error_code', s.errorCode).catch(this.error);
+      if (s.errorCode !== this.previousErrorCode) {
         this.homey.flow.getDeviceTriggerCard('error_state_changed')
-          .trigger(this, {
-            error_code: this.currentState.errorCode,
-            previous_error_code: this.previousErrorCode
-          })
-          .catch(this.error);
-        this.previousErrorCode = this.currentState.errorCode;
+          .trigger(this, { error_code: s.errorCode, previous_error_code: this.previousErrorCode })
+          .catch((e: Error) => this.error(e.message));
+        this.previousErrorCode = s.errorCode;
       }
     }
-
-    if (this.currentState.totalOperationHours !== null) {
-      this.setCapabilityValue('itho_total_operation', this.currentState.totalOperationHours).catch(this.error);
+    if (s.totalOperationHours !== null) {
+      this.setCapabilityValue('itho_total_operation', s.totalOperationHours).catch(this.error);
     }
-
-    if (this.currentState.startupCounter !== null) {
-      this.setCapabilityValue('itho_startup_counter', this.currentState.startupCounter).catch(this.error);
+    if (s.startupCounter !== null) {
+      this.setCapabilityValue('itho_startup_counter', s.startupCounter).catch(this.error);
     }
+    if (s.absoluteHumidity !== null) {
+      this.setCapabilityValue('itho_absolute_humidity', s.absoluteHumidity).catch(this.error);
+    }
+    if (s.supplyTemperature !== null) {
+      this.setCapabilityValue('itho_supply_temperature', s.supplyTemperature).catch(this.error);
+    }
+    if (s.exhaustTemperature !== null) {
+      this.setCapabilityValue('itho_exhaust_temperature', s.exhaustTemperature).catch(this.error);
+    }
+    this.setCapabilityValue('itho_online', s.online).catch(this.error);
   }
 
   private registerCapabilityListeners() {
@@ -219,53 +267,27 @@ module.exports = class IthoApiDevice extends Homey.Device {
   }
 
   async setFanPreset(preset: string) {
-    const command: IthoCommand = {
-      type: 'preset',
-      value: preset
-    };
-
-    await this.sendCommand(command);
+    await this.sendCommand({ type: 'preset', value: preset });
   }
 
   async setFanSpeed(speed: number, timer?: number) {
-    const command: IthoCommand = {
-      type: 'speed',
-      value: speed,
-      timer: timer
-    };
-
-    await this.sendCommand(command);
+    await this.sendCommand({ type: 'speed', value: speed, timer });
   }
 
   async startTimer(seconds: number) {
-    const command: IthoCommand = {
-      type: 'timer',
-      value: seconds
-    };
-
-    await this.sendCommand(command);
+    await this.sendCommand({ type: 'timer', value: seconds });
   }
 
   async clearQueue() {
-    const command: IthoCommand = {
-      type: 'clearqueue'
-    };
-
-    await this.sendCommand(command);
+    await this.sendCommand({ type: 'clearqueue' });
   }
 
   async sendVirtualRemote(remoteCommand: string) {
-    const command: IthoCommand = {
-      type: 'vremote',
-      value: remoteCommand
-    };
-
-    await this.sendCommand(command);
+    await this.sendCommand({ type: 'vremote', value: remoteCommand });
   }
 
   private async sendCommand(command: IthoCommand) {
     const host = this.getSetting('api_host') as string;
-    
     if (!host) {
       throw new Error('No API host configured');
     }
@@ -273,15 +295,10 @@ module.exports = class IthoApiDevice extends Homey.Device {
     const baseUrl = `http://${host}`;
     const username = this.getSetting('api_username') as string;
     const password = this.getSetting('api_password') as string;
-
     const url = IthoCommandMapper.buildApiUrl(baseUrl, command, username, password);
 
     try {
-      const response = await fetch(url);
-      
-      if (!response.ok) {
-        throw new Error(`API request failed: ${response.status}`);
-      }
+      await this.httpGet(url);
 
       this.homey.flow.getDeviceTriggerCard('command_sent_success')
         .trigger(this, {
@@ -289,13 +306,13 @@ module.exports = class IthoApiDevice extends Homey.Device {
           command_value: JSON.stringify(command.value),
           transport: 'API'
         })
-        .catch(this.error);
+        .catch((e: Error) => this.error(e.message));
 
+      // Re-poll after command
       await this.pollDevice();
-
     } catch (error) {
       this.error('Failed to send command:', error);
-      
+
       this.homey.flow.getDeviceTriggerCard('command_failed')
         .trigger(this, {
           command_name: command.type,
@@ -303,22 +320,19 @@ module.exports = class IthoApiDevice extends Homey.Device {
           error_message: error instanceof Error ? error.message : 'Unknown error',
           transport: 'API'
         })
-        .catch(this.error);
-      
+        .catch((e: Error) => this.error(e.message));
+
       throw error;
     }
   }
 
   private buildApiUrl(baseUrl: string, endpoint: string, username?: string, password?: string): string {
     const params = new URLSearchParams();
-    
-    if (username) {
+    if (username && username.trim() !== '') {
       params.append('username', username);
       params.append('password', password || '');
     }
-    
     params.append('get', endpoint);
-    
     return `${baseUrl}/api.html?${params.toString()}`;
   }
 
