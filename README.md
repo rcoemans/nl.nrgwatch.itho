@@ -4,7 +4,7 @@
 [![Homey App Test](https://img.shields.io/badge/Homey-Test%20App-FFA500?logo=homey)](https://homey.app/en-nl/app/nl.nrgwatch.itho/NRG.Watch-Itho-add-on/test/)
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
 
-> App has not yet been submitted for certification but is available via [test](https://homey.app/en-nl/app/nl.nrgwatch.itho/NRG.Watch-Itho-add-on/) link.
+> App has not yet been submitted for certification but is available via [test](https://homey.app/en-nl/app/nl.nrgwatch.itho/NRG.Watch-Itho-add-on/test/) link.
 
 Homey app for **Itho ventilation systems** via the **NRG.Watch Itho add-on**. Control and monitor your Itho ventilation through **MQTT** or **HTTP API** directly from Homey.
 
