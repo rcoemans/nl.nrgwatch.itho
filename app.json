@@ -9,14 +9,17 @@
     "local"
   ],
   "name": {
-    "en": "NRG.Watch Itho add-on"
+    "en": "NRG.Watch Itho add-on",
+    "nl": "NRG.Watch Itho add-on"
   },
   "description": {
-    "en": "Control and monitor your Itho ventilation system via MQTT or API in Homey (requires the NRG.Watch Itho add-on)."
+    "en": "Control and monitor your Itho ventilation system via MQTT or API in Homey (requires the NRG.Watch Itho add-on).",
+    "nl": "Bedien en monitor je Itho ventilatiesysteem via MQTT of API in Homey (vereist de NRG.Watch Itho add-on)."
   },
   "category": [
     "climate"
   ],
+  "brandColor": "#FFA500",
   "permissions": [],
   "images": {
     "small": "/assets/images/small.png",
@@ -26,5 +29,1768 @@
   "author": {
     "name": "Robert Coemans",
     "email": "r.coemans@hotmail.com"
+  },
+  "homepage": "https://github.com/rcoemans/nl.nrgwatch.itho",
+  "support": "https://github.com/rcoemans/nl.nrgwatch.itho/issues",
+  "source": "https://github.com/rcoemans/nl.nrgwatch.itho",
+  "bugs": {
+    "url": "https://github.com/rcoemans/nl.nrgwatch.itho/issues"
+  },
+  "flow": {
+    "triggers": [
+      {
+        "title": {
+          "en": "A command failed",
+          "nl": "Een commando is mislukt"
+        },
+        "tokens": [
+          {
+            "name": "command_name",
+            "type": "string",
+            "title": {
+              "en": "Command name",
+              "nl": "Commando naam"
+            }
+          },
+          {
+            "name": "command_value",
+            "type": "string",
+            "title": {
+              "en": "Command value",
+              "nl": "Commando waarde"
+            }
+          },
+          {
+            "name": "error_message",
+            "type": "string",
+            "title": {
+              "en": "Error message",
+              "nl": "Foutmelding"
+            }
+          },
+          {
+            "name": "transport",
+            "type": "string",
+            "title": {
+              "en": "Transport",
+              "nl": "Transport"
+            }
+          }
+        ],
+        "id": "command_failed"
+      },
+      {
+        "title": {
+          "en": "A command was sent successfully",
+          "nl": "Een commando is succesvol verzonden"
+        },
+        "tokens": [
+          {
+            "name": "command_name",
+            "type": "string",
+            "title": {
+              "en": "Command name",
+              "nl": "Commando naam"
+            }
+          },
+          {
+            "name": "command_value",
+            "type": "string",
+            "title": {
+              "en": "Command value",
+              "nl": "Commando waarde"
+            }
+          },
+          {
+            "name": "transport",
+            "type": "string",
+            "title": {
+              "en": "Transport",
+              "nl": "Transport"
+            }
+          }
+        ],
+        "id": "command_sent_success"
+      },
+      {
+        "title": {
+          "en": "The Itho device went offline",
+          "nl": "Het Itho apparaat is offline gegaan"
+        },
+        "tokens": [
+          {
+            "name": "device_name",
+            "type": "string",
+            "title": {
+              "en": "Device name",
+              "nl": "Apparaatnaam"
+            }
+          },
+          {
+            "name": "transport",
+            "type": "string",
+            "title": {
+              "en": "Transport",
+              "nl": "Transport"
+            }
+          }
+        ],
+        "id": "device_offline"
+      },
+      {
+        "title": {
+          "en": "The Itho device came online",
+          "nl": "Het Itho apparaat is online gekomen"
+        },
+        "tokens": [
+          {
+            "name": "device_name",
+            "type": "string",
+            "title": {
+              "en": "Device name",
+              "nl": "Apparaatnaam"
+            }
+          },
+          {
+            "name": "transport",
+            "type": "string",
+            "title": {
+              "en": "Transport",
+              "nl": "Transport"
+            }
+          }
+        ],
+        "id": "device_online"
+      },
+      {
+        "title": {
+          "en": "The error state changed",
+          "nl": "De foutstatus is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "error_code",
+            "type": "number",
+            "title": {
+              "en": "Error code",
+              "nl": "Foutcode"
+            }
+          },
+          {
+            "name": "previous_error_code",
+            "type": "number",
+            "title": {
+              "en": "Previous error code",
+              "nl": "Vorige foutcode"
+            }
+          }
+        ],
+        "id": "error_state_changed"
+      },
+      {
+        "title": {
+          "en": "The fan preset changed",
+          "nl": "De ventilator preset is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "preset",
+            "type": "string",
+            "title": {
+              "en": "Preset",
+              "nl": "Preset"
+            }
+          },
+          {
+            "name": "previous_preset",
+            "type": "string",
+            "title": {
+              "en": "Previous preset",
+              "nl": "Vorige preset"
+            }
+          }
+        ],
+        "id": "fan_preset_changed"
+      },
+      {
+        "title": {
+          "en": "The fan speed changed",
+          "nl": "De ventilatorsnelheid is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "speed_raw",
+            "type": "number",
+            "title": {
+              "en": "Speed (raw)",
+              "nl": "Snelheid (raw)"
+            }
+          },
+          {
+            "name": "speed_percent",
+            "type": "number",
+            "title": {
+              "en": "Speed (%)",
+              "nl": "Snelheid (%)"
+            }
+          },
+          {
+            "name": "previous_speed_raw",
+            "type": "number",
+            "title": {
+              "en": "Previous speed (raw)",
+              "nl": "Vorige snelheid (raw)"
+            }
+          }
+        ],
+        "id": "fan_speed_changed"
+      },
+      {
+        "title": {
+          "en": "The humidity changed",
+          "nl": "De luchtvochtigheid is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "humidity",
+            "type": "number",
+            "title": {
+              "en": "Humidity",
+              "nl": "Luchtvochtigheid"
+            }
+          },
+          {
+            "name": "previous_humidity",
+            "type": "number",
+            "title": {
+              "en": "Previous humidity",
+              "nl": "Vorige luchtvochtigheid"
+            }
+          }
+        ],
+        "id": "humidity_changed"
+      },
+      {
+        "title": {
+          "en": "MQTT broker connected",
+          "nl": "MQTT broker verbonden"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt"
+          }
+        ],
+        "id": "mqtt_broker_connected"
+      },
+      {
+        "title": {
+          "en": "MQTT broker disconnected",
+          "nl": "MQTT broker verbinding verbroken"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt"
+          }
+        ],
+        "id": "mqtt_broker_disconnected"
+      },
+      {
+        "title": {
+          "en": "Message received on topic",
+          "nl": "Bericht ontvangen op topic"
+        },
+        "titleFormatted": {
+          "en": "Message received on topic [[topic]]",
+          "nl": "Bericht ontvangen op topic [[topic]]"
+        },
+        "hint": {
+          "en": "Triggers when a message is received on the specified MQTT topic. Supports wildcards: + (single level) and # (multi level).",
+          "nl": "Triggert wanneer een bericht wordt ontvangen op het opgegeven MQTT topic. Ondersteunt wildcards: + (enkel niveau) en # (meerdere niveaus)."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt"
+          },
+          {
+            "type": "text",
+            "name": "topic",
+            "title": {
+              "en": "Topic",
+              "nl": "Topic"
+            },
+            "placeholder": {
+              "en": "broker/+/something/#",
+              "nl": "broker/+/iets/#"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "message",
+            "type": "string",
+            "title": {
+              "en": "Message received",
+              "nl": "Ontvangen bericht"
+            }
+          },
+          {
+            "name": "topic",
+            "type": "string",
+            "title": {
+              "en": "Topic",
+              "nl": "Topic"
+            }
+          }
+        ],
+        "id": "mqtt_message_received"
+      },
+      {
+        "title": {
+          "en": "The temperature changed",
+          "nl": "De temperatuur is veranderd"
+        },
+        "tokens": [
+          {
+            "name": "temperature",
+            "type": "number",
+            "title": {
+              "en": "Temperature",
+              "nl": "Temperatuur"
+            }
+          },
+          {
+            "name": "previous_temperature",
+            "type": "number",
+            "title": {
+              "en": "Previous temperature",
+              "nl": "Vorige temperatuur"
+            }
+          }
+        ],
+        "id": "temperature_changed"
+      }
+    ],
+    "conditions": [
+      {
+        "title": {
+          "en": "The Itho device !{{has|does not have}} an error",
+          "nl": "Het Itho apparaat !{{heeft|heeft geen}} fout"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          }
+        ],
+        "id": "device_has_error"
+      },
+      {
+        "title": {
+          "en": "The Itho device !{{is|is not}} online",
+          "nl": "Het Itho apparaat !{{is|is niet}} online"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          }
+        ],
+        "id": "device_is_online"
+      },
+      {
+        "title": {
+          "en": "The fan preset is...",
+          "nl": "De ventilator preset is..."
+        },
+        "titleFormatted": {
+          "en": "The fan preset !{{is|is not}} [[preset]]",
+          "nl": "De ventilator preset !{{is|is niet}} [[preset]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          },
+          {
+            "type": "dropdown",
+            "name": "preset",
+            "title": {
+              "en": "Preset",
+              "nl": "Preset"
+            },
+            "values": [
+              {
+                "id": "away",
+                "label": {
+                  "en": "Away",
+                  "nl": "Afwezig"
+                }
+              },
+              {
+                "id": "low",
+                "label": {
+                  "en": "Low",
+                  "nl": "Laag"
+                }
+              },
+              {
+                "id": "medium",
+                "label": {
+                  "en": "Medium",
+                  "nl": "Middel"
+                }
+              },
+              {
+                "id": "high",
+                "label": {
+                  "en": "High",
+                  "nl": "Hoog"
+                }
+              },
+              {
+                "id": "auto",
+                "label": {
+                  "en": "Auto",
+                  "nl": "Auto"
+                }
+              },
+              {
+                "id": "autonight",
+                "label": {
+                  "en": "Auto Night",
+                  "nl": "Auto Nacht"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "fan_preset_is"
+      },
+      {
+        "title": {
+          "en": "The fan speed is...",
+          "nl": "De ventilatorsnelheid is..."
+        },
+        "titleFormatted": {
+          "en": "The fan speed !{{is|is not}} above [[speed]]",
+          "nl": "De ventilatorsnelheid !{{is|is niet}} boven [[speed]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          },
+          {
+            "type": "number",
+            "name": "speed",
+            "title": {
+              "en": "Speed (0-255)",
+              "nl": "Snelheid (0-255)"
+            },
+            "min": 0,
+            "max": 255,
+            "step": 1
+          }
+        ],
+        "id": "fan_speed_above"
+      },
+      {
+        "title": {
+          "en": "The fan speed is...",
+          "nl": "De ventilatorsnelheid is..."
+        },
+        "titleFormatted": {
+          "en": "The fan speed !{{is|is not}} below [[speed]]",
+          "nl": "De ventilatorsnelheid !{{is|is niet}} onder [[speed]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          },
+          {
+            "type": "number",
+            "name": "speed",
+            "title": {
+              "en": "Speed (0-255)",
+              "nl": "Snelheid (0-255)"
+            },
+            "min": 0,
+            "max": 255,
+            "step": 1
+          }
+        ],
+        "id": "fan_speed_below"
+      },
+      {
+        "title": {
+          "en": "The fan speed is...",
+          "nl": "De ventilatorsnelheid is..."
+        },
+        "titleFormatted": {
+          "en": "The fan speed !{{is|is not}} [[speed]]",
+          "nl": "De ventilatorsnelheid !{{is|is niet}} [[speed]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          },
+          {
+            "type": "number",
+            "name": "speed",
+            "title": {
+              "en": "Speed (0-255)",
+              "nl": "Snelheid (0-255)"
+            },
+            "min": 0,
+            "max": 255,
+            "step": 1
+          }
+        ],
+        "id": "fan_speed_equal"
+      },
+      {
+        "title": {
+          "en": "The humidity is...",
+          "nl": "De luchtvochtigheid is..."
+        },
+        "titleFormatted": {
+          "en": "The humidity !{{is|is not}} above [[humidity]] %",
+          "nl": "De luchtvochtigheid !{{is|is niet}} boven [[humidity]] %"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          },
+          {
+            "type": "number",
+            "name": "humidity",
+            "title": {
+              "en": "Humidity",
+              "nl": "Luchtvochtigheid"
+            },
+            "min": 0,
+            "max": 100,
+            "step": 1
+          }
+        ],
+        "id": "humidity_above"
+      },
+      {
+        "title": {
+          "en": "The humidity is...",
+          "nl": "De luchtvochtigheid is..."
+        },
+        "titleFormatted": {
+          "en": "The humidity !{{is|is not}} below [[humidity]] %",
+          "nl": "De luchtvochtigheid !{{is|is niet}} onder [[humidity]] %"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          },
+          {
+            "type": "number",
+            "name": "humidity",
+            "title": {
+              "en": "Humidity",
+              "nl": "Luchtvochtigheid"
+            },
+            "min": 0,
+            "max": 100,
+            "step": 1
+          }
+        ],
+        "id": "humidity_below"
+      },
+      {
+        "title": {
+          "en": "MQTT broker !{{is|is not}} connected",
+          "nl": "MQTT broker !{{is|is niet}} verbonden"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt"
+          }
+        ],
+        "id": "mqtt_broker_connected"
+      },
+      {
+        "title": {
+          "en": "The temperature is...",
+          "nl": "De temperatuur is..."
+        },
+        "titleFormatted": {
+          "en": "The temperature !{{is|is not}} above [[temperature]] °C",
+          "nl": "De temperatuur !{{is|is niet}} boven [[temperature]] °C"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          },
+          {
+            "type": "number",
+            "name": "temperature",
+            "title": {
+              "en": "Temperature",
+              "nl": "Temperatuur"
+            },
+            "min": -20,
+            "max": 50,
+            "step": 0.5
+          }
+        ],
+        "id": "temperature_above"
+      },
+      {
+        "title": {
+          "en": "The temperature is...",
+          "nl": "De temperatuur is..."
+        },
+        "titleFormatted": {
+          "en": "The temperature !{{is|is not}} below [[temperature]] °C",
+          "nl": "De temperatuur !{{is|is niet}} onder [[temperature]] °C"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          },
+          {
+            "type": "number",
+            "name": "temperature",
+            "title": {
+              "en": "Temperature",
+              "nl": "Temperatuur"
+            },
+            "min": -20,
+            "max": 50,
+            "step": 0.5
+          }
+        ],
+        "id": "temperature_below"
+      }
+    ],
+    "actions": [
+      {
+        "title": {
+          "en": "Clear queued timers and commands",
+          "nl": "Wis wachtrij met timers en commando's"
+        },
+        "hint": {
+          "en": "Clears queued timers and returns to the fallback/base behavior",
+          "nl": "Wist de wachtrij met timers en keert terug naar het standaard gedrag"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          }
+        ],
+        "id": "clear_queue"
+      },
+      {
+        "title": {
+          "en": "Send message with options",
+          "nl": "Stuur bericht met opties"
+        },
+        "titleFormatted": {
+          "en": "Send [[message]] on topic [[topic]] with QoS [[qos]] and retain [[retain]]",
+          "nl": "Stuur [[message]] op topic [[topic]] met QoS [[qos]] en retain [[retain]]"
+        },
+        "hint": {
+          "en": "Publishes a message to the specified MQTT topic with custom QoS and retain settings",
+          "nl": "Publiceert een bericht naar het opgegeven MQTT topic met aangepaste QoS en retain instellingen"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt"
+          },
+          {
+            "type": "text",
+            "name": "message",
+            "title": {
+              "en": "Message",
+              "nl": "Bericht"
+            },
+            "placeholder": {
+              "en": "Message to send",
+              "nl": "Te verzenden bericht"
+            }
+          },
+          {
+            "type": "text",
+            "name": "topic",
+            "title": {
+              "en": "Topic",
+              "nl": "Topic"
+            },
+            "placeholder": {
+              "en": "mqtt/topic",
+              "nl": "mqtt/topic"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "qos",
+            "title": {
+              "en": "Quality of Service",
+              "nl": "Quality of Service"
+            },
+            "values": [
+              {
+                "id": "0",
+                "label": {
+                  "en": "QoS 0 (At most once)",
+                  "nl": "QoS 0 (Hoogstens één keer)"
+                }
+              },
+              {
+                "id": "1",
+                "label": {
+                  "en": "QoS 1 (At least once)",
+                  "nl": "QoS 1 (Minstens één keer)"
+                }
+              },
+              {
+                "id": "2",
+                "label": {
+                  "en": "QoS 2 (Exactly once)",
+                  "nl": "QoS 2 (Precies één keer)"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "retain",
+            "title": {
+              "en": "Retain",
+              "nl": "Retain"
+            },
+            "values": [
+              {
+                "id": "false",
+                "label": {
+                  "en": "False",
+                  "nl": "Nee"
+                }
+              },
+              {
+                "id": "true",
+                "label": {
+                  "en": "True",
+                  "nl": "Ja"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "mqtt_publish_advanced"
+      },
+      {
+        "title": {
+          "en": "Send message on topic",
+          "nl": "Stuur bericht op topic"
+        },
+        "titleFormatted": {
+          "en": "Send [[message]] on topic [[topic]]",
+          "nl": "Stuur [[message]] op topic [[topic]]"
+        },
+        "hint": {
+          "en": "Publishes a message to the specified MQTT topic with default QoS 0 and no retain",
+          "nl": "Publiceert een bericht naar het opgegeven MQTT topic met standaard QoS 0 en geen retain"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt"
+          },
+          {
+            "type": "text",
+            "name": "message",
+            "title": {
+              "en": "Message",
+              "nl": "Bericht"
+            },
+            "placeholder": {
+              "en": "Message to send",
+              "nl": "Te verzenden bericht"
+            }
+          },
+          {
+            "type": "text",
+            "name": "topic",
+            "title": {
+              "en": "Topic",
+              "nl": "Topic"
+            },
+            "placeholder": {
+              "en": "mqtt/topic",
+              "nl": "mqtt/topic"
+            }
+          }
+        ],
+        "id": "mqtt_publish_simple"
+      },
+      {
+        "title": {
+          "en": "Send virtual remote command",
+          "nl": "Stuur virtuele afstandsbediening commando"
+        },
+        "titleFormatted": {
+          "en": "Send virtual remote command [[command]]",
+          "nl": "Stuur virtuele afstandsbediening commando [[command]]"
+        },
+        "hint": {
+          "en": "Emulates a configured virtual remote",
+          "nl": "Emuleert een geconfigureerde virtuele afstandsbediening"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          },
+          {
+            "type": "dropdown",
+            "name": "command",
+            "title": {
+              "en": "Command",
+              "nl": "Commando"
+            },
+            "values": [
+              {
+                "id": "away",
+                "label": {
+                  "en": "Away",
+                  "nl": "Afwezig"
+                }
+              },
+              {
+                "id": "low",
+                "label": {
+                  "en": "Low",
+                  "nl": "Laag"
+                }
+              },
+              {
+                "id": "medium",
+                "label": {
+                  "en": "Medium",
+                  "nl": "Middel"
+                }
+              },
+              {
+                "id": "high",
+                "label": {
+                  "en": "High",
+                  "nl": "Hoog"
+                }
+              },
+              {
+                "id": "timer1",
+                "label": {
+                  "en": "Timer 1",
+                  "nl": "Timer 1"
+                }
+              },
+              {
+                "id": "timer2",
+                "label": {
+                  "en": "Timer 2",
+                  "nl": "Timer 2"
+                }
+              },
+              {
+                "id": "timer3",
+                "label": {
+                  "en": "Timer 3",
+                  "nl": "Timer 3"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "send_virtual_remote"
+      },
+      {
+        "title": {
+          "en": "Set the fan preset",
+          "nl": "Stel de ventilator preset in"
+        },
+        "titleFormatted": {
+          "en": "Set the fan preset to [[preset]]",
+          "nl": "Stel de ventilator preset in op [[preset]]"
+        },
+        "hint": {
+          "en": "Sends a preset command such as low, medium, or high",
+          "nl": "Stuurt een preset commando zoals laag, middel of hoog"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          },
+          {
+            "type": "dropdown",
+            "name": "preset",
+            "title": {
+              "en": "Preset",
+              "nl": "Preset"
+            },
+            "values": [
+              {
+                "id": "away",
+                "label": {
+                  "en": "Away",
+                  "nl": "Afwezig"
+                }
+              },
+              {
+                "id": "low",
+                "label": {
+                  "en": "Low",
+                  "nl": "Laag"
+                }
+              },
+              {
+                "id": "medium",
+                "label": {
+                  "en": "Medium",
+                  "nl": "Middel"
+                }
+              },
+              {
+                "id": "high",
+                "label": {
+                  "en": "High",
+                  "nl": "Hoog"
+                }
+              },
+              {
+                "id": "auto",
+                "label": {
+                  "en": "Auto",
+                  "nl": "Auto"
+                }
+              },
+              {
+                "id": "autonight",
+                "label": {
+                  "en": "Auto Night",
+                  "nl": "Auto Nacht"
+                }
+              },
+              {
+                "id": "cook30",
+                "label": {
+                  "en": "Cook 30",
+                  "nl": "Koken 30"
+                }
+              },
+              {
+                "id": "cook60",
+                "label": {
+                  "en": "Cook 60",
+                  "nl": "Koken 60"
+                }
+              },
+              {
+                "id": "timer1",
+                "label": {
+                  "en": "Timer 1",
+                  "nl": "Timer 1"
+                }
+              },
+              {
+                "id": "timer2",
+                "label": {
+                  "en": "Timer 2",
+                  "nl": "Timer 2"
+                }
+              },
+              {
+                "id": "timer3",
+                "label": {
+                  "en": "Timer 3",
+                  "nl": "Timer 3"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "set_fan_preset"
+      },
+      {
+        "title": {
+          "en": "Set the fan speed",
+          "nl": "Stel de ventilatorsnelheid in"
+        },
+        "titleFormatted": {
+          "en": "Set the fan speed to [[speed]]",
+          "nl": "Stel de ventilatorsnelheid in op [[speed]]"
+        },
+        "hint": {
+          "en": "Sets the raw fan speed value in the supported range 0-255",
+          "nl": "Stelt de ruwe ventilatorsnelheid in binnen het bereik 0-255"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          },
+          {
+            "type": "number",
+            "name": "speed",
+            "title": {
+              "en": "Speed (0-255)",
+              "nl": "Snelheid (0-255)"
+            },
+            "min": 0,
+            "max": 255,
+            "step": 1
+          }
+        ],
+        "id": "set_fan_speed"
+      },
+      {
+        "title": {
+          "en": "Set the fan speed with timer",
+          "nl": "Stel de ventilatorsnelheid in met timer"
+        },
+        "titleFormatted": {
+          "en": "Set the fan speed to [[speed]] for [[seconds]] seconds",
+          "nl": "Stel de ventilatorsnelheid in op [[speed]] voor [[seconds]] seconden"
+        },
+        "hint": {
+          "en": "Sets the fan speed with a timer",
+          "nl": "Stelt de ventilatorsnelheid in met een timer"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          },
+          {
+            "type": "number",
+            "name": "speed",
+            "title": {
+              "en": "Speed (0-255)",
+              "nl": "Snelheid (0-255)"
+            },
+            "min": 0,
+            "max": 255,
+            "step": 1
+          },
+          {
+            "type": "number",
+            "name": "seconds",
+            "title": {
+              "en": "Seconds",
+              "nl": "Seconden"
+            },
+            "min": 0,
+            "max": 65535,
+            "step": 1
+          }
+        ],
+        "id": "set_speed_with_timer"
+      },
+      {
+        "title": {
+          "en": "Start a timer",
+          "nl": "Start een timer"
+        },
+        "titleFormatted": {
+          "en": "Start a timer for [[seconds]] seconds",
+          "nl": "Start een timer voor [[seconds]] seconden"
+        },
+        "hint": {
+          "en": "Starts a timed fan action. The exact resulting speed depends on the linked preset or speed.",
+          "nl": "Start een getimede ventilator actie. De exacte resulterende snelheid hangt af van de gekoppelde preset of snelheid."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=itho-mqtt|itho-api"
+          },
+          {
+            "type": "number",
+            "name": "seconds",
+            "title": {
+              "en": "Seconds",
+              "nl": "Seconden"
+            },
+            "min": 0,
+            "max": 65535,
+            "step": 1
+          }
+        ],
+        "id": "start_timer"
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "NRG.Watch Itho (API)",
+        "nl": "NRG.Watch Itho (API)"
+      },
+      "class": "fan",
+      "capabilities": [
+        "itho_fan_preset",
+        "itho_fan_speed_raw",
+        "measure_temperature",
+        "measure_humidity",
+        "itho_fan_speed_rpm",
+        "itho_fan_setpoint_rpm",
+        "itho_ventilation_setpoint",
+        "itho_error_code",
+        "itho_total_operation",
+        "itho_startup_counter"
+      ],
+      "capabilitiesOptions": {
+        "itho_fan_preset": {
+          "title": {
+            "en": "Fan Preset",
+            "nl": "Ventilator Preset"
+          }
+        },
+        "itho_fan_speed_raw": {
+          "title": {
+            "en": "Fan Speed (Raw)",
+            "nl": "Ventilatorsnelheid (Raw)"
+          }
+        }
+      },
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/itho-api/assets/images/small.png",
+        "large": "/drivers/itho-api/assets/images/large.png",
+        "xlarge": "/drivers/itho-api/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "API Connection",
+            "nl": "API Verbinding"
+          },
+          "children": [
+            {
+              "id": "api_host",
+              "type": "text",
+              "label": {
+                "en": "IP address or DNS",
+                "nl": "IP-adres of DNS"
+              },
+              "value": "",
+              "hint": {
+                "en": "IP address or DNS name of the Itho add-on (e.g., 192.168.4.1 or itho.local)",
+                "nl": "IP-adres of DNS-naam van de Itho add-on (bijv. 192.168.4.1 of itho.local)"
+              }
+            },
+            {
+              "id": "api_username",
+              "type": "text",
+              "label": {
+                "en": "Username",
+                "nl": "Gebruikersnaam"
+              },
+              "value": ""
+            },
+            {
+              "id": "api_password",
+              "type": "password",
+              "label": {
+                "en": "Password",
+                "nl": "Wachtwoord"
+              },
+              "value": ""
+            },
+            {
+              "id": "api_poll_interval",
+              "type": "number",
+              "label": {
+                "en": "Poll interval (seconds)",
+                "nl": "Poll interval (seconden)"
+              },
+              "value": 15,
+              "min": 5,
+              "max": 300,
+              "hint": {
+                "en": "How often to poll the device for status updates",
+                "nl": "Hoe vaak het apparaat moet worden gepolld voor statusupdates"
+              }
+            }
+          ]
+        }
+      ],
+      "id": "itho-api"
+    },
+    {
+      "name": {
+        "en": "NRG.Watch Itho (MQTT)",
+        "nl": "NRG.Watch Itho (MQTT)"
+      },
+      "class": "fan",
+      "capabilities": [
+        "itho_fan_preset",
+        "itho_fan_speed_raw",
+        "measure_temperature",
+        "measure_humidity",
+        "itho_fan_speed_rpm",
+        "itho_fan_setpoint_rpm",
+        "itho_ventilation_setpoint",
+        "itho_error_code",
+        "itho_total_operation",
+        "itho_startup_counter"
+      ],
+      "capabilitiesOptions": {
+        "itho_fan_preset": {
+          "title": {
+            "en": "Fan Preset",
+            "nl": "Ventilator Preset"
+          }
+        },
+        "itho_fan_speed_raw": {
+          "title": {
+            "en": "Fan Speed (Raw)",
+            "nl": "Ventilatorsnelheid (Raw)"
+          }
+        }
+      },
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/itho-mqtt/assets/images/small.png",
+        "large": "/drivers/itho-mqtt/assets/images/large.png",
+        "xlarge": "/drivers/itho-mqtt/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "MQTT Connectivity",
+            "nl": "MQTT Connectiviteit"
+          },
+          "children": [
+            {
+              "id": "mqtt_host",
+              "type": "text",
+              "label": {
+                "en": "MQTT broker (IP address or DNS)",
+                "nl": "MQTT broker (IP-adres of DNS)"
+              },
+              "value": "localhost",
+              "hint": {
+                "en": "Hostname or IP address of the MQTT broker",
+                "nl": "Hostnaam of IP-adres van de MQTT broker"
+              }
+            },
+            {
+              "id": "mqtt_port",
+              "type": "number",
+              "label": {
+                "en": "Port number",
+                "nl": "Poortnummer"
+              },
+              "value": 1883,
+              "min": 1,
+              "max": 65535,
+              "hint": {
+                "en": "Port used by the MQTT broker",
+                "nl": "Poort gebruikt door de MQTT broker"
+              }
+            },
+            {
+              "id": "mqtt_tls",
+              "type": "checkbox",
+              "label": {
+                "en": "Use a secure connection with the broker (TLS)",
+                "nl": "Gebruik een beveiligde verbinding met de broker (TLS)"
+              },
+              "value": false,
+              "hint": {
+                "en": "Enable TLS when the broker requires a secure connection",
+                "nl": "Schakel TLS in wanneer de broker een beveiligde verbinding vereist"
+              }
+            },
+            {
+              "id": "mqtt_tls_insecure",
+              "type": "checkbox",
+              "label": {
+                "en": "Disable certificate validation (when using self-signed certificates)",
+                "nl": "Schakel certificaatvalidatie uit (bij gebruik van zelfondertekende certificaten)"
+              },
+              "value": false,
+              "hint": {
+                "en": "Allows self-signed or otherwise untrusted certificates. Use only when needed.",
+                "nl": "Staat zelfondertekende of anderszins niet-vertrouwde certificaten toe. Gebruik alleen indien nodig."
+              }
+            },
+            {
+              "id": "mqtt_keepalive",
+              "type": "number",
+              "label": {
+                "en": "Keepalive time (seconds)",
+                "nl": "Keepalive tijd (seconden)"
+              },
+              "value": 60,
+              "min": 0,
+              "max": 65535,
+              "hint": {
+                "en": "MQTT keepalive interval. Leave empty to use the recommended fallback.",
+                "nl": "MQTT keepalive interval. Laat leeg om de aanbevolen standaardwaarde te gebruiken."
+              }
+            },
+            {
+              "id": "mqtt_username",
+              "type": "text",
+              "label": {
+                "en": "Username",
+                "nl": "Gebruikersnaam"
+              },
+              "value": ""
+            },
+            {
+              "id": "mqtt_password",
+              "type": "password",
+              "label": {
+                "en": "Password",
+                "nl": "Wachtwoord"
+              },
+              "value": ""
+            },
+            {
+              "id": "mqtt_use_custom_client_id",
+              "type": "checkbox",
+              "label": {
+                "en": "Provide your own client id to be used when connecting to the broker",
+                "nl": "Geef je eigen client-id op om te gebruiken bij het verbinden met de broker"
+              },
+              "value": false
+            },
+            {
+              "id": "mqtt_client_id",
+              "type": "text",
+              "label": {
+                "en": "Client id",
+                "nl": "Client-id"
+              },
+              "value": "",
+              "hint": {
+                "en": "Leave disabled to let the app generate a stable client id automatically",
+                "nl": "Laat uitgeschakeld om de app automatisch een stabiele client-id te laten genereren"
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "MQTT Base Topic",
+            "nl": "MQTT Basis Topic"
+          },
+          "children": [
+            {
+              "id": "mqtt_base_topic",
+              "type": "text",
+              "label": {
+                "en": "MQTT base topic",
+                "nl": "MQTT basis topic"
+              },
+              "value": "itho",
+              "hint": {
+                "en": "Base topic used by the Itho add-on. The app derives all internal topics automatically.",
+                "nl": "Basis topic gebruikt door de Itho add-on. De app leidt alle interne topics automatisch af."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "LWT Help Text",
+            "nl": "LWT Hulptekst"
+          },
+          "children": [
+            {
+              "id": "lwt_help",
+              "type": "label",
+              "label": {
+                "en": "LWT in MQTT stands for Last Will and Testament. It is a core feature of the MQTT protocol designed for IoT and messaging applications to detect when a client disconnects unexpectedly from the MQTT broker.",
+                "nl": "LWT in MQTT staat voor Last Will and Testament. Het is een kernfunctie van het MQTT-protocol, ontworpen voor IoT- en berichtenapplicaties om te detecteren wanneer een client onverwacht de verbinding met de MQTT-broker verbreekt."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "LWT Configuration",
+            "nl": "LWT Configuratie"
+          },
+          "children": [
+            {
+              "id": "mqtt_use_lwt",
+              "type": "checkbox",
+              "label": {
+                "en": "Use LWT",
+                "nl": "Gebruik LWT"
+              },
+              "value": false,
+              "hint": {
+                "en": "Publish a Last Will and Testament when connecting",
+                "nl": "Publiceer een Last Will and Testament bij het verbinden"
+              }
+            },
+            {
+              "id": "mqtt_lwt_topic",
+              "type": "text",
+              "label": {
+                "en": "Topic for LWT",
+                "nl": "Topic voor LWT"
+              },
+              "value": ""
+            },
+            {
+              "id": "mqtt_lwt_message",
+              "type": "text",
+              "label": {
+                "en": "LWT message",
+                "nl": "LWT bericht"
+              },
+              "value": ""
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "MQTT Broker Log",
+            "nl": "MQTT Broker Log"
+          },
+          "children": [
+            {
+              "id": "mqtt_log",
+              "type": "label",
+              "label": {
+                "en": "View connection log in the Homey app logs.",
+                "nl": "Bekijk verbindingslog in de Homey app logs."
+              }
+            }
+          ]
+        }
+      ],
+      "id": "itho-mqtt"
+    }
+  ],
+  "capabilities": {
+    "itho_error_code": {
+      "type": "number",
+      "title": {
+        "en": "Error Code",
+        "nl": "Foutcode"
+      },
+      "desc": {
+        "en": "Current error code (0 = no error)",
+        "nl": "Huidige foutcode (0 = geen fout)"
+      },
+      "units": {
+        "en": "",
+        "nl": ""
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "min": 0,
+      "max": 255,
+      "decimals": 0
+    },
+    "itho_fan_preset": {
+      "type": "enum",
+      "title": {
+        "en": "Fan Preset",
+        "nl": "Ventilator Preset"
+      },
+      "desc": {
+        "en": "Current fan preset mode",
+        "nl": "Huidige ventilator preset modus"
+      },
+      "values": [
+        {
+          "id": "away",
+          "title": {
+            "en": "Away",
+            "nl": "Afwezig"
+          }
+        },
+        {
+          "id": "low",
+          "title": {
+            "en": "Low",
+            "nl": "Laag"
+          }
+        },
+        {
+          "id": "medium",
+          "title": {
+            "en": "Medium",
+            "nl": "Middel"
+          }
+        },
+        {
+          "id": "high",
+          "title": {
+            "en": "High",
+            "nl": "Hoog"
+          }
+        },
+        {
+          "id": "auto",
+          "title": {
+            "en": "Auto",
+            "nl": "Auto"
+          }
+        },
+        {
+          "id": "autonight",
+          "title": {
+            "en": "Auto Night",
+            "nl": "Auto Nacht"
+          }
+        },
+        {
+          "id": "cook30",
+          "title": {
+            "en": "Cook 30",
+            "nl": "Koken 30"
+          }
+        },
+        {
+          "id": "cook60",
+          "title": {
+            "en": "Cook 60",
+            "nl": "Koken 60"
+          }
+        },
+        {
+          "id": "timer1",
+          "title": {
+            "en": "Timer 1",
+            "nl": "Timer 1"
+          }
+        },
+        {
+          "id": "timer2",
+          "title": {
+            "en": "Timer 2",
+            "nl": "Timer 2"
+          }
+        },
+        {
+          "id": "timer3",
+          "title": {
+            "en": "Timer 3",
+            "nl": "Timer 3"
+          }
+        }
+      ],
+      "getable": true,
+      "setable": true,
+      "uiComponent": "picker"
+    },
+    "itho_fan_setpoint_rpm": {
+      "type": "number",
+      "title": {
+        "en": "Fan Setpoint",
+        "nl": "Ventilator Setpoint"
+      },
+      "desc": {
+        "en": "Fan setpoint in RPM",
+        "nl": "Ventilator setpoint in RPM"
+      },
+      "units": {
+        "en": "rpm",
+        "nl": "rpm"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "min": 0,
+      "max": 3000,
+      "decimals": 0
+    },
+    "itho_fan_speed_raw": {
+      "type": "number",
+      "title": {
+        "en": "Fan Speed (Raw)",
+        "nl": "Ventilatorsnelheid (Raw)"
+      },
+      "desc": {
+        "en": "Current fan speed (0-255)",
+        "nl": "Huidige ventilatorsnelheid (0-255)"
+      },
+      "units": {
+        "en": "",
+        "nl": ""
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "min": 0,
+      "max": 255,
+      "step": 1,
+      "decimals": 0
+    },
+    "itho_fan_speed_rpm": {
+      "type": "number",
+      "title": {
+        "en": "Fan Speed",
+        "nl": "Ventilatorsnelheid"
+      },
+      "desc": {
+        "en": "Current fan speed in RPM",
+        "nl": "Huidige ventilatorsnelheid in RPM"
+      },
+      "units": {
+        "en": "rpm",
+        "nl": "rpm"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "min": 0,
+      "max": 3000,
+      "decimals": 0
+    },
+    "itho_startup_counter": {
+      "type": "number",
+      "title": {
+        "en": "Startup Counter",
+        "nl": "Opstart Teller"
+      },
+      "desc": {
+        "en": "Number of startups",
+        "nl": "Aantal keer opgestart"
+      },
+      "units": {
+        "en": "",
+        "nl": ""
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "min": 0,
+      "decimals": 0
+    },
+    "itho_total_operation": {
+      "type": "number",
+      "title": {
+        "en": "Total Operation Hours",
+        "nl": "Totaal Bedrijfsuren"
+      },
+      "desc": {
+        "en": "Total operation hours",
+        "nl": "Totaal aantal bedrijfsuren"
+      },
+      "units": {
+        "en": "h",
+        "nl": "u"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "min": 0,
+      "decimals": 0
+    },
+    "itho_ventilation_setpoint": {
+      "type": "number",
+      "title": {
+        "en": "Ventilation Setpoint",
+        "nl": "Ventilatie Setpoint"
+      },
+      "desc": {
+        "en": "Ventilation setpoint percentage",
+        "nl": "Ventilatie setpoint percentage"
+      },
+      "units": {
+        "en": "%",
+        "nl": "%"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "min": 0,
+      "max": 100,
+      "decimals": 0
+    }
   }
 }

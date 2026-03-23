@@ -1,4 +1,8 @@
 {
+  "title": {
+    "en": "Start a timer",
+    "nl": "Start een timer"
+  },
   "titleFormatted": {
     "en": "Start a timer for [[seconds]] seconds",
     "nl": "Start een timer voor [[seconds]] seconden"

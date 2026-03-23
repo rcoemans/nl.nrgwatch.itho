@@ -37,7 +37,7 @@
     "lan"
   ],
   "images": {
-    "small": "/drivers/itho-api/assets/icon.svg",
+    "small": "/drivers/itho-api/assets/images/small.png",
     "large": "/drivers/itho-api/assets/images/large.png",
     "xlarge": "/drivers/itho-api/assets/images/xlarge.png"
   },

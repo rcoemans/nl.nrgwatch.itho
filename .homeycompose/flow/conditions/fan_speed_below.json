@@ -1,4 +1,8 @@
 {
+  "title": {
+    "en": "The fan speed is...",
+    "nl": "De ventilatorsnelheid is..."
+  },
   "titleFormatted": {
     "en": "The fan speed !{{is|is not}} below [[speed]]",
     "nl": "De ventilatorsnelheid !{{is|is niet}} onder [[speed]]"

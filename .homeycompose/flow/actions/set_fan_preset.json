@@ -1,4 +1,8 @@
 {
+  "title": {
+    "en": "Set the fan preset",
+    "nl": "Stel de ventilator preset in"
+  },
   "titleFormatted": {
     "en": "Set the fan preset to [[preset]]",
     "nl": "Stel de ventilator preset in op [[preset]]"

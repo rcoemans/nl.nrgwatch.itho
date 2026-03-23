@@ -15,7 +15,6 @@
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "icon": "/assets/icons/fan.svg",
   "min": 0,
   "max": 255,
   "step": 1,

@@ -1,4 +1,8 @@
 {
+  "title": {
+    "en": "The temperature is...",
+    "nl": "De temperatuur is..."
+  },
   "titleFormatted": {
     "en": "The temperature !{{is|is not}} above [[temperature]] °C",
     "nl": "De temperatuur !{{is|is niet}} boven [[temperature]] °C"

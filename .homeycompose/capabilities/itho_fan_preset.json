@@ -89,6 +89,5 @@
   ],
   "getable": true,
   "setable": true,
-  "uiComponent": "picker",
-  "icon": "/assets/icons/fan.svg"
+  "uiComponent": "picker"
 }

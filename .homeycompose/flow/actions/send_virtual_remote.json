@@ -1,4 +1,8 @@
 {
+  "title": {
+    "en": "Send virtual remote command",
+    "nl": "Stuur virtuele afstandsbediening commando"
+  },
   "titleFormatted": {
     "en": "Send virtual remote command [[command]]",
     "nl": "Stuur virtuele afstandsbediening commando [[command]]"

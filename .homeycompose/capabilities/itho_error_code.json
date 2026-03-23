@@ -15,7 +15,6 @@
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "icon": "/assets/icons/alarm.svg",
   "min": 0,
   "max": 255,
   "decimals": 0

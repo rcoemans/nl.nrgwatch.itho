@@ -1,4 +1,8 @@
 {
+  "title": {
+    "en": "The humidity is...",
+    "nl": "De luchtvochtigheid is..."
+  },
   "titleFormatted": {
     "en": "The humidity !{{is|is not}} above [[humidity]] %",
     "nl": "De luchtvochtigheid !{{is|is niet}} boven [[humidity]] %"

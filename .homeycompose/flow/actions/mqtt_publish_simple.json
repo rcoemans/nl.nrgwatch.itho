@@ -1,4 +1,8 @@
 {
+  "title": {
+    "en": "Send message on topic",
+    "nl": "Stuur bericht op topic"
+  },
   "titleFormatted": {
     "en": "Send [[message]] on topic [[topic]]",
     "nl": "Stuur [[message]] op topic [[topic]]"

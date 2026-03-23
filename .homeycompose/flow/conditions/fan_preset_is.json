@@ -1,4 +1,8 @@
 {
+  "title": {
+    "en": "The fan preset is...",
+    "nl": "De ventilator preset is..."
+  },
   "titleFormatted": {
     "en": "The fan preset !{{is|is not}} [[preset]]",
     "nl": "De ventilator preset !{{is|is niet}} [[preset]]"

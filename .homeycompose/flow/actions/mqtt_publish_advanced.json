@@ -1,4 +1,8 @@
 {
+  "title": {
+    "en": "Send message with options",
+    "nl": "Stuur bericht met opties"
+  },
   "titleFormatted": {
     "en": "Send [[message]] on topic [[topic]] with QoS [[qos]] and retain [[retain]]",
     "nl": "Stuur [[message]] op topic [[topic]] met QoS [[qos]] en retain [[retain]]"

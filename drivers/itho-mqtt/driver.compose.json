@@ -37,7 +37,7 @@
     "lan"
   ],
   "images": {
-    "small": "/drivers/itho-mqtt/assets/icon.svg",
+    "small": "/drivers/itho-mqtt/assets/images/small.png",
     "large": "/drivers/itho-mqtt/assets/images/large.png",
     "xlarge": "/drivers/itho-mqtt/assets/images/xlarge.png"
   },
@@ -263,20 +263,8 @@
           "id": "mqtt_log",
           "type": "label",
           "label": {
-            "en": "View connection log entries below. Click 'Retrieve log' to refresh.",
-            "nl": "Bekijk verbindingslog-items hieronder. Klik op 'Log ophalen' om te vernieuwen."
-          }
-        },
-        {
-          "id": "retrieve_log",
-          "type": "button",
-          "label": {
-            "en": "Retrieve log",
-            "nl": "Log ophalen"
-          },
-          "hint": {
-            "en": "Reload current log entries",
-            "nl": "Herlaad huidige log-items"
+            "en": "View connection log in the Homey app logs.",
+            "nl": "Bekijk verbindingslog in de Homey app logs."
           }
         }
       ]
