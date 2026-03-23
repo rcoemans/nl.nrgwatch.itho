@@ -1,7 +1,7 @@
 {
   "id": "nl.nrgwatch.itho",
   "version": "1.0.0",
-  "compatibility": ">=12.4.0",
+  "compatibility": ">=5.0.0",
   "sdk": 3,
   "runtime": "nodejs",
   "platforms": [
