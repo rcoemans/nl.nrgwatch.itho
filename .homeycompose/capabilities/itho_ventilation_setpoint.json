@@ -1,0 +1,22 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Ventilation Setpoint",
+    "nl": "Ventilatie Setpoint"
+  },
+  "desc": {
+    "en": "Ventilation setpoint percentage",
+    "nl": "Ventilatie setpoint percentage"
+  },
+  "units": {
+    "en": "%",
+    "nl": "%"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/icons/percentage.svg",
+  "min": 0,
+  "max": 100,
+  "decimals": 0
+}

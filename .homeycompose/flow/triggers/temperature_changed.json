@@ -1,0 +1,24 @@
+{
+  "title": {
+    "en": "The temperature changed",
+    "nl": "De temperatuur is veranderd"
+  },
+  "tokens": [
+    {
+      "name": "temperature",
+      "type": "number",
+      "title": {
+        "en": "Temperature",
+        "nl": "Temperatuur"
+      }
+    },
+    {
+      "name": "previous_temperature",
+      "type": "number",
+      "title": {
+        "en": "Previous temperature",
+        "nl": "Vorige temperatuur"
+      }
+    }
+  ]
+}

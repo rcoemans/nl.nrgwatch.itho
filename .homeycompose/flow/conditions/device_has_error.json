@@ -1,0 +1,13 @@
+{
+  "title": {
+    "en": "The Itho device !{{has|does not have}} an error",
+    "nl": "Het Itho apparaat !{{heeft|heeft geen}} fout"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    }
+  ]
+}

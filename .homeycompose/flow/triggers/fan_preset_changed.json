@@ -1,0 +1,24 @@
+{
+  "title": {
+    "en": "The fan preset changed",
+    "nl": "De ventilator preset is veranderd"
+  },
+  "tokens": [
+    {
+      "name": "preset",
+      "type": "string",
+      "title": {
+        "en": "Preset",
+        "nl": "Preset"
+      }
+    },
+    {
+      "name": "previous_preset",
+      "type": "string",
+      "title": {
+        "en": "Previous preset",
+        "nl": "Vorige preset"
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "title": {
+    "en": "MQTT broker disconnected",
+    "nl": "MQTT broker verbinding verbroken"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt"
+    }
+  ]
+}

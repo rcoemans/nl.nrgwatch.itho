@@ -1,0 +1,13 @@
+{
+  "title": {
+    "en": "The Itho device !{{is|is not}} online",
+    "nl": "Het Itho apparaat !{{is|is niet}} online"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "name": {
+    "en": "NRG.Watch Itho (API)",
+    "nl": "NRG.Watch Itho (API)"
+  },
+  "class": "fan",
+  "capabilities": [
+    "itho_fan_preset",
+    "itho_fan_speed_raw",
+    "measure_temperature",
+    "measure_humidity",
+    "itho_fan_speed_rpm",
+    "itho_fan_setpoint_rpm",
+    "itho_ventilation_setpoint",
+    "itho_error_code",
+    "itho_total_operation",
+    "itho_startup_counter"
+  ],
+  "capabilitiesOptions": {
+    "itho_fan_preset": {
+      "title": {
+        "en": "Fan Preset",
+        "nl": "Ventilator Preset"
+      }
+    },
+    "itho_fan_speed_raw": {
+      "title": {
+        "en": "Fan Speed (Raw)",
+        "nl": "Ventilatorsnelheid (Raw)"
+      }
+    }
+  },
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [
+    "lan"
+  ],
+  "images": {
+    "small": "/drivers/itho-api/assets/icon.svg",
+    "large": "/drivers/itho-api/assets/images/large.png",
+    "xlarge": "/drivers/itho-api/assets/images/xlarge.png"
+  },
+  "pair": [
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "API Connection",
+        "nl": "API Verbinding"
+      },
+      "children": [
+        {
+          "id": "api_host",
+          "type": "text",
+          "label": {
+            "en": "IP address or DNS",
+            "nl": "IP-adres of DNS"
+          },
+          "value": "",
+          "hint": {
+            "en": "IP address or DNS name of the Itho add-on (e.g., 192.168.4.1 or itho.local)",
+            "nl": "IP-adres of DNS-naam van de Itho add-on (bijv. 192.168.4.1 of itho.local)"
+          }
+        },
+        {
+          "id": "api_username",
+          "type": "text",
+          "label": {
+            "en": "Username",
+            "nl": "Gebruikersnaam"
+          },
+          "value": ""
+        },
+        {
+          "id": "api_password",
+          "type": "password",
+          "label": {
+            "en": "Password",
+            "nl": "Wachtwoord"
+          },
+          "value": ""
+        },
+        {
+          "id": "api_poll_interval",
+          "type": "number",
+          "label": {
+            "en": "Poll interval (seconds)",
+            "nl": "Poll interval (seconden)"
+          },
+          "value": 15,
+          "min": 5,
+          "max": 300,
+          "hint": {
+            "en": "How often to poll the device for status updates",
+            "nl": "Hoe vaak het apparaat moet worden gepolld voor statusupdates"
+          }
+        }
+      ]
+    }
+  ]
+}

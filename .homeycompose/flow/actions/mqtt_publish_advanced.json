@@ -1,0 +1,96 @@
+{
+  "titleFormatted": {
+    "en": "Send [[message]] on topic [[topic]] with QoS [[qos]] and retain [[retain]]",
+    "nl": "Stuur [[message]] op topic [[topic]] met QoS [[qos]] en retain [[retain]]"
+  },
+  "hint": {
+    "en": "Publishes a message to the specified MQTT topic with custom QoS and retain settings",
+    "nl": "Publiceert een bericht naar het opgegeven MQTT topic met aangepaste QoS en retain instellingen"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt"
+    },
+    {
+      "type": "text",
+      "name": "message",
+      "title": {
+        "en": "Message",
+        "nl": "Bericht"
+      },
+      "placeholder": {
+        "en": "Message to send",
+        "nl": "Te verzenden bericht"
+      }
+    },
+    {
+      "type": "text",
+      "name": "topic",
+      "title": {
+        "en": "Topic",
+        "nl": "Topic"
+      },
+      "placeholder": {
+        "en": "mqtt/topic",
+        "nl": "mqtt/topic"
+      }
+    },
+    {
+      "type": "dropdown",
+      "name": "qos",
+      "title": {
+        "en": "Quality of Service",
+        "nl": "Quality of Service"
+      },
+      "values": [
+        {
+          "id": "0",
+          "label": {
+            "en": "QoS 0 (At most once)",
+            "nl": "QoS 0 (Hoogstens één keer)"
+          }
+        },
+        {
+          "id": "1",
+          "label": {
+            "en": "QoS 1 (At least once)",
+            "nl": "QoS 1 (Minstens één keer)"
+          }
+        },
+        {
+          "id": "2",
+          "label": {
+            "en": "QoS 2 (Exactly once)",
+            "nl": "QoS 2 (Precies één keer)"
+          }
+        }
+      ]
+    },
+    {
+      "type": "dropdown",
+      "name": "retain",
+      "title": {
+        "en": "Retain",
+        "nl": "Retain"
+      },
+      "values": [
+        {
+          "id": "false",
+          "label": {
+            "en": "False",
+            "nl": "Nee"
+          }
+        },
+        {
+          "id": "true",
+          "label": {
+            "en": "True",
+            "nl": "Ja"
+          }
+        }
+      ]
+    }
+  ]
+}

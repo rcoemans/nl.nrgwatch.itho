@@ -8,10 +8,12 @@
     "local"
   ],
   "name": {
-    "en": "NRG.Watch Itho add-on"
+    "en": "NRG.Watch Itho add-on",
+    "nl": "NRG.Watch Itho add-on"
   },
   "description": {
-    "en": "Control and monitor your Itho ventilation system via MQTT or API in Homey (requires the NRG.Watch Itho add-on)."
+    "en": "Control and monitor your Itho ventilation system via MQTT or API in Homey (requires the NRG.Watch Itho add-on).",
+    "nl": "Bedien en monitor je Itho ventilatiesysteem via MQTT of API in Homey (vereist de NRG.Watch Itho add-on)."
   },
   "category": [
     "climate"
@@ -25,5 +27,11 @@
   "author": {
     "name": "Robert Coemans",
     "email": "r.coemans@hotmail.com"
+  },
+  "homepage": "https://github.com/rcoemans/nl.nrgwatch.itho",
+  "support": "https://github.com/rcoemans/nl.nrgwatch.itho/issues",
+  "source": "https://github.com/rcoemans/nl.nrgwatch.itho",
+  "bugs": {
+    "url": "https://github.com/rcoemans/nl.nrgwatch.itho/issues"
   }
 }

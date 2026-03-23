@@ -1,0 +1,24 @@
+{
+  "title": {
+    "en": "The Itho device came online",
+    "nl": "Het Itho apparaat is online gekomen"
+  },
+  "tokens": [
+    {
+      "name": "device_name",
+      "type": "string",
+      "title": {
+        "en": "Device name",
+        "nl": "Apparaatnaam"
+      }
+    },
+    {
+      "name": "transport",
+      "type": "string",
+      "title": {
+        "en": "Transport",
+        "nl": "Transport"
+      }
+    }
+  ]
+}

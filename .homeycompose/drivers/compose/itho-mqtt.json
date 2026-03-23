@@ -1,0 +1,285 @@
+{
+  "name": {
+    "en": "NRG.Watch Itho (MQTT)",
+    "nl": "NRG.Watch Itho (MQTT)"
+  },
+  "class": "fan",
+  "capabilities": [
+    "itho_fan_preset",
+    "itho_fan_speed_raw",
+    "measure_temperature",
+    "measure_humidity",
+    "itho_fan_speed_rpm",
+    "itho_fan_setpoint_rpm",
+    "itho_ventilation_setpoint",
+    "itho_error_code",
+    "itho_total_operation",
+    "itho_startup_counter"
+  ],
+  "capabilitiesOptions": {
+    "itho_fan_preset": {
+      "title": {
+        "en": "Fan Preset",
+        "nl": "Ventilator Preset"
+      }
+    },
+    "itho_fan_speed_raw": {
+      "title": {
+        "en": "Fan Speed (Raw)",
+        "nl": "Ventilatorsnelheid (Raw)"
+      }
+    }
+  },
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [
+    "lan"
+  ],
+  "images": {
+    "small": "/drivers/itho-mqtt/assets/icon.svg",
+    "large": "/drivers/itho-mqtt/assets/images/large.png",
+    "xlarge": "/drivers/itho-mqtt/assets/images/xlarge.png"
+  },
+  "pair": [
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "MQTT Connectivity",
+        "nl": "MQTT Connectiviteit"
+      },
+      "children": [
+        {
+          "id": "mqtt_host",
+          "type": "text",
+          "label": {
+            "en": "MQTT broker (IP address or DNS)",
+            "nl": "MQTT broker (IP-adres of DNS)"
+          },
+          "value": "localhost",
+          "hint": {
+            "en": "Hostname or IP address of the MQTT broker",
+            "nl": "Hostnaam of IP-adres van de MQTT broker"
+          }
+        },
+        {
+          "id": "mqtt_port",
+          "type": "number",
+          "label": {
+            "en": "Port number",
+            "nl": "Poortnummer"
+          },
+          "value": 1883,
+          "min": 1,
+          "max": 65535,
+          "hint": {
+            "en": "Port used by the MQTT broker",
+            "nl": "Poort gebruikt door de MQTT broker"
+          }
+        },
+        {
+          "id": "mqtt_tls",
+          "type": "checkbox",
+          "label": {
+            "en": "Use a secure connection with the broker (TLS)",
+            "nl": "Gebruik een beveiligde verbinding met de broker (TLS)"
+          },
+          "value": false,
+          "hint": {
+            "en": "Enable TLS when the broker requires a secure connection",
+            "nl": "Schakel TLS in wanneer de broker een beveiligde verbinding vereist"
+          }
+        },
+        {
+          "id": "mqtt_tls_insecure",
+          "type": "checkbox",
+          "label": {
+            "en": "Disable certificate validation (when using self-signed certificates)",
+            "nl": "Schakel certificaatvalidatie uit (bij gebruik van zelfondertekende certificaten)"
+          },
+          "value": false,
+          "hint": {
+            "en": "Allows self-signed or otherwise untrusted certificates. Use only when needed.",
+            "nl": "Staat zelfondertekende of anderszins niet-vertrouwde certificaten toe. Gebruik alleen indien nodig."
+          }
+        },
+        {
+          "id": "mqtt_keepalive",
+          "type": "number",
+          "label": {
+            "en": "Keepalive time (seconds)",
+            "nl": "Keepalive tijd (seconden)"
+          },
+          "value": 60,
+          "min": 0,
+          "max": 65535,
+          "hint": {
+            "en": "MQTT keepalive interval. Leave empty to use the recommended fallback.",
+            "nl": "MQTT keepalive interval. Laat leeg om de aanbevolen standaardwaarde te gebruiken."
+          }
+        },
+        {
+          "id": "mqtt_username",
+          "type": "text",
+          "label": {
+            "en": "Username",
+            "nl": "Gebruikersnaam"
+          },
+          "value": ""
+        },
+        {
+          "id": "mqtt_password",
+          "type": "password",
+          "label": {
+            "en": "Password",
+            "nl": "Wachtwoord"
+          },
+          "value": ""
+        },
+        {
+          "id": "mqtt_use_custom_client_id",
+          "type": "checkbox",
+          "label": {
+            "en": "Provide your own client id to be used when connecting to the broker",
+            "nl": "Geef je eigen client-id op om te gebruiken bij het verbinden met de broker"
+          },
+          "value": false
+        },
+        {
+          "id": "mqtt_client_id",
+          "type": "text",
+          "label": {
+            "en": "Client id",
+            "nl": "Client-id"
+          },
+          "value": "",
+          "hint": {
+            "en": "Leave disabled to let the app generate a stable client id automatically",
+            "nl": "Laat uitgeschakeld om de app automatisch een stabiele client-id te laten genereren"
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "MQTT Base Topic",
+        "nl": "MQTT Basis Topic"
+      },
+      "children": [
+        {
+          "id": "mqtt_base_topic",
+          "type": "text",
+          "label": {
+            "en": "MQTT base topic",
+            "nl": "MQTT basis topic"
+          },
+          "value": "itho",
+          "hint": {
+            "en": "Base topic used by the Itho add-on. The app derives all internal topics automatically.",
+            "nl": "Basis topic gebruikt door de Itho add-on. De app leidt alle interne topics automatisch af."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "LWT Help Text",
+        "nl": "LWT Hulptekst"
+      },
+      "children": [
+        {
+          "id": "lwt_help",
+          "type": "label",
+          "label": {
+            "en": "LWT in MQTT stands for Last Will and Testament. It is a core feature of the MQTT protocol designed for IoT and messaging applications to detect when a client disconnects unexpectedly from the MQTT broker.",
+            "nl": "LWT in MQTT staat voor Last Will and Testament. Het is een kernfunctie van het MQTT-protocol, ontworpen voor IoT- en berichtenapplicaties om te detecteren wanneer een client onverwacht de verbinding met de MQTT-broker verbreekt."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "LWT Configuration",
+        "nl": "LWT Configuratie"
+      },
+      "children": [
+        {
+          "id": "mqtt_use_lwt",
+          "type": "checkbox",
+          "label": {
+            "en": "Use LWT",
+            "nl": "Gebruik LWT"
+          },
+          "value": false,
+          "hint": {
+            "en": "Publish a Last Will and Testament when connecting",
+            "nl": "Publiceer een Last Will and Testament bij het verbinden"
+          }
+        },
+        {
+          "id": "mqtt_lwt_topic",
+          "type": "text",
+          "label": {
+            "en": "Topic for LWT",
+            "nl": "Topic voor LWT"
+          },
+          "value": ""
+        },
+        {
+          "id": "mqtt_lwt_message",
+          "type": "text",
+          "label": {
+            "en": "LWT message",
+            "nl": "LWT bericht"
+          },
+          "value": ""
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "MQTT Broker Log",
+        "nl": "MQTT Broker Log"
+      },
+      "children": [
+        {
+          "id": "mqtt_log",
+          "type": "label",
+          "label": {
+            "en": "View connection log entries below. Click 'Retrieve log' to refresh.",
+            "nl": "Bekijk verbindingslog-items hieronder. Klik op 'Log ophalen' om te vernieuwen."
+          }
+        },
+        {
+          "id": "retrieve_log",
+          "type": "button",
+          "label": {
+            "en": "Retrieve log",
+            "nl": "Log ophalen"
+          },
+          "hint": {
+            "en": "Reload current log entries",
+            "nl": "Herlaad huidige log-items"
+          }
+        }
+      ]
+    }
+  ]
+}

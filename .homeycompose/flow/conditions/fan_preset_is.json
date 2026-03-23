@@ -1,0 +1,65 @@
+{
+  "titleFormatted": {
+    "en": "The fan preset !{{is|is not}} [[preset]]",
+    "nl": "De ventilator preset !{{is|is niet}} [[preset]]"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    },
+    {
+      "type": "dropdown",
+      "name": "preset",
+      "title": {
+        "en": "Preset",
+        "nl": "Preset"
+      },
+      "values": [
+        {
+          "id": "away",
+          "label": {
+            "en": "Away",
+            "nl": "Afwezig"
+          }
+        },
+        {
+          "id": "low",
+          "label": {
+            "en": "Low",
+            "nl": "Laag"
+          }
+        },
+        {
+          "id": "medium",
+          "label": {
+            "en": "Medium",
+            "nl": "Middel"
+          }
+        },
+        {
+          "id": "high",
+          "label": {
+            "en": "High",
+            "nl": "Hoog"
+          }
+        },
+        {
+          "id": "auto",
+          "label": {
+            "en": "Auto",
+            "nl": "Auto"
+          }
+        },
+        {
+          "id": "autonight",
+          "label": {
+            "en": "Auto Night",
+            "nl": "Auto Nacht"
+          }
+        }
+      ]
+    }
+  ]
+}

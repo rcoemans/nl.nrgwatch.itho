@@ -1,0 +1,76 @@
+{
+  "titleFormatted": {
+    "en": "Send virtual remote command [[command]]",
+    "nl": "Stuur virtuele afstandsbediening commando [[command]]"
+  },
+  "hint": {
+    "en": "Emulates a configured virtual remote",
+    "nl": "Emuleert een geconfigureerde virtuele afstandsbediening"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    },
+    {
+      "type": "dropdown",
+      "name": "command",
+      "title": {
+        "en": "Command",
+        "nl": "Commando"
+      },
+      "values": [
+        {
+          "id": "away",
+          "label": {
+            "en": "Away",
+            "nl": "Afwezig"
+          }
+        },
+        {
+          "id": "low",
+          "label": {
+            "en": "Low",
+            "nl": "Laag"
+          }
+        },
+        {
+          "id": "medium",
+          "label": {
+            "en": "Medium",
+            "nl": "Middel"
+          }
+        },
+        {
+          "id": "high",
+          "label": {
+            "en": "High",
+            "nl": "Hoog"
+          }
+        },
+        {
+          "id": "timer1",
+          "label": {
+            "en": "Timer 1",
+            "nl": "Timer 1"
+          }
+        },
+        {
+          "id": "timer2",
+          "label": {
+            "en": "Timer 2",
+            "nl": "Timer 2"
+          }
+        },
+        {
+          "id": "timer3",
+          "label": {
+            "en": "Timer 3",
+            "nl": "Timer 3"
+          }
+        }
+      ]
+    }
+  ]
+}

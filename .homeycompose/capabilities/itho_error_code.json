@@ -1,0 +1,22 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Error Code",
+    "nl": "Foutcode"
+  },
+  "desc": {
+    "en": "Current error code (0 = no error)",
+    "nl": "Huidige foutcode (0 = geen fout)"
+  },
+  "units": {
+    "en": "",
+    "nl": ""
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/icons/alarm.svg",
+  "min": 0,
+  "max": 255,
+  "decimals": 0
+}

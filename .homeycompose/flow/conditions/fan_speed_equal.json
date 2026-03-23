@@ -1,0 +1,24 @@
+{
+  "titleFormatted": {
+    "en": "The fan speed !{{is|is not}} [[speed]]",
+    "nl": "De ventilatorsnelheid !{{is|is niet}} [[speed]]"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    },
+    {
+      "type": "number",
+      "name": "speed",
+      "title": {
+        "en": "Speed (0-255)",
+        "nl": "Snelheid (0-255)"
+      },
+      "min": 0,
+      "max": 255,
+      "step": 1
+    }
+  ]
+}

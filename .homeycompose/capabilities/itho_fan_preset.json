@@ -1,0 +1,94 @@
+{
+  "type": "enum",
+  "title": {
+    "en": "Fan Preset",
+    "nl": "Ventilator Preset"
+  },
+  "desc": {
+    "en": "Current fan preset mode",
+    "nl": "Huidige ventilator preset modus"
+  },
+  "values": [
+    {
+      "id": "away",
+      "title": {
+        "en": "Away",
+        "nl": "Afwezig"
+      }
+    },
+    {
+      "id": "low",
+      "title": {
+        "en": "Low",
+        "nl": "Laag"
+      }
+    },
+    {
+      "id": "medium",
+      "title": {
+        "en": "Medium",
+        "nl": "Middel"
+      }
+    },
+    {
+      "id": "high",
+      "title": {
+        "en": "High",
+        "nl": "Hoog"
+      }
+    },
+    {
+      "id": "auto",
+      "title": {
+        "en": "Auto",
+        "nl": "Auto"
+      }
+    },
+    {
+      "id": "autonight",
+      "title": {
+        "en": "Auto Night",
+        "nl": "Auto Nacht"
+      }
+    },
+    {
+      "id": "cook30",
+      "title": {
+        "en": "Cook 30",
+        "nl": "Koken 30"
+      }
+    },
+    {
+      "id": "cook60",
+      "title": {
+        "en": "Cook 60",
+        "nl": "Koken 60"
+      }
+    },
+    {
+      "id": "timer1",
+      "title": {
+        "en": "Timer 1",
+        "nl": "Timer 1"
+      }
+    },
+    {
+      "id": "timer2",
+      "title": {
+        "en": "Timer 2",
+        "nl": "Timer 2"
+      }
+    },
+    {
+      "id": "timer3",
+      "title": {
+        "en": "Timer 3",
+        "nl": "Timer 3"
+      }
+    }
+  ],
+  "getable": true,
+  "setable": true,
+  "uiComponent": "picker",
+  "icon": "/assets/icons/fan.svg"
+}

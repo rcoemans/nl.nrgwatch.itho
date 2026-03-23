@@ -1,0 +1,24 @@
+{
+  "title": {
+    "en": "The Itho device went offline",
+    "nl": "Het Itho apparaat is offline gegaan"
+  },
+  "tokens": [
+    {
+      "name": "device_name",
+      "type": "string",
+      "title": {
+        "en": "Device name",
+        "nl": "Apparaatnaam"
+      }
+    },
+    {
+      "name": "transport",
+      "type": "string",
+      "title": {
+        "en": "Transport",
+        "nl": "Transport"
+      }
+    }
+  ]
+}

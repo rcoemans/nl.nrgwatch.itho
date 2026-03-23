@@ -1,0 +1,28 @@
+{
+  "titleFormatted": {
+    "en": "Set the fan speed to [[speed]]",
+    "nl": "Stel de ventilatorsnelheid in op [[speed]]"
+  },
+  "hint": {
+    "en": "Sets the raw fan speed value in the supported range 0-255",
+    "nl": "Stelt de ruwe ventilatorsnelheid in binnen het bereik 0-255"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    },
+    {
+      "type": "number",
+      "name": "speed",
+      "title": {
+        "en": "Speed (0-255)",
+        "nl": "Snelheid (0-255)"
+      },
+      "min": 0,
+      "max": 255,
+      "step": 1
+    }
+  ]
+}

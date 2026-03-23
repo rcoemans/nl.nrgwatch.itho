@@ -1,0 +1,24 @@
+{
+  "titleFormatted": {
+    "en": "The humidity !{{is|is not}} above [[humidity]] %",
+    "nl": "De luchtvochtigheid !{{is|is niet}} boven [[humidity]] %"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    },
+    {
+      "type": "number",
+      "name": "humidity",
+      "title": {
+        "en": "Humidity",
+        "nl": "Luchtvochtigheid"
+      },
+      "min": 0,
+      "max": 100,
+      "step": 1
+    }
+  ]
+}

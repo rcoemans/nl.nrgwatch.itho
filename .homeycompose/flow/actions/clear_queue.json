@@ -1,0 +1,17 @@
+{
+  "title": {
+    "en": "Clear queued timers and commands",
+    "nl": "Wis wachtrij met timers en commando's"
+  },
+  "hint": {
+    "en": "Clears queued timers and returns to the fallback/base behavior",
+    "nl": "Wist de wachtrij met timers en keert terug naar het standaard gedrag"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    }
+  ]
+}

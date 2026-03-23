@@ -1,0 +1,28 @@
+{
+  "titleFormatted": {
+    "en": "Start a timer for [[seconds]] seconds",
+    "nl": "Start een timer voor [[seconds]] seconden"
+  },
+  "hint": {
+    "en": "Starts a timed fan action. The exact resulting speed depends on the linked preset or speed.",
+    "nl": "Start een getimede ventilator actie. De exacte resulterende snelheid hangt af van de gekoppelde preset of snelheid."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    },
+    {
+      "type": "number",
+      "name": "seconds",
+      "title": {
+        "en": "Seconds",
+        "nl": "Seconden"
+      },
+      "min": 0,
+      "max": 65535,
+      "step": 1
+    }
+  ]
+}

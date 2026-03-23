@@ -1,0 +1,24 @@
+{
+  "titleFormatted": {
+    "en": "The temperature !{{is|is not}} above [[temperature]] °C",
+    "nl": "De temperatuur !{{is|is niet}} boven [[temperature]] °C"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    },
+    {
+      "type": "number",
+      "name": "temperature",
+      "title": {
+        "en": "Temperature",
+        "nl": "Temperatuur"
+      },
+      "min": -20,
+      "max": 50,
+      "step": 0.5
+    }
+  ]
+}

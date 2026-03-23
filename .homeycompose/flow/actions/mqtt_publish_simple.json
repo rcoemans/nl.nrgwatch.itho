@@ -1,0 +1,41 @@
+{
+  "titleFormatted": {
+    "en": "Send [[message]] on topic [[topic]]",
+    "nl": "Stuur [[message]] op topic [[topic]]"
+  },
+  "hint": {
+    "en": "Publishes a message to the specified MQTT topic with default QoS 0 and no retain",
+    "nl": "Publiceert een bericht naar het opgegeven MQTT topic met standaard QoS 0 en geen retain"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt"
+    },
+    {
+      "type": "text",
+      "name": "message",
+      "title": {
+        "en": "Message",
+        "nl": "Bericht"
+      },
+      "placeholder": {
+        "en": "Message to send",
+        "nl": "Te verzenden bericht"
+      }
+    },
+    {
+      "type": "text",
+      "name": "topic",
+      "title": {
+        "en": "Topic",
+        "nl": "Topic"
+      },
+      "placeholder": {
+        "en": "mqtt/topic",
+        "nl": "mqtt/topic"
+      }
+    }
+  ]
+}

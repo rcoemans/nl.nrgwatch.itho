@@ -1,0 +1,51 @@
+{
+  "title": {
+    "en": "Message received on topic",
+    "nl": "Bericht ontvangen op topic"
+  },
+  "titleFormatted": {
+    "en": "Message received on topic [[topic]]",
+    "nl": "Bericht ontvangen op topic [[topic]]"
+  },
+  "hint": {
+    "en": "Triggers when a message is received on the specified MQTT topic. Supports wildcards: + (single level) and # (multi level).",
+    "nl": "Triggert wanneer een bericht wordt ontvangen op het opgegeven MQTT topic. Ondersteunt wildcards: + (enkel niveau) en # (meerdere niveaus)."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt"
+    },
+    {
+      "type": "text",
+      "name": "topic",
+      "title": {
+        "en": "Topic",
+        "nl": "Topic"
+      },
+      "placeholder": {
+        "en": "broker/+/something/#",
+        "nl": "broker/+/iets/#"
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "name": "message",
+      "type": "string",
+      "title": {
+        "en": "Message received",
+        "nl": "Ontvangen bericht"
+      }
+    },
+    {
+      "name": "topic",
+      "type": "string",
+      "title": {
+        "en": "Topic",
+        "nl": "Topic"
+      }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "title": {
+    "en": "The humidity changed",
+    "nl": "De luchtvochtigheid is veranderd"
+  },
+  "tokens": [
+    {
+      "name": "humidity",
+      "type": "number",
+      "title": {
+        "en": "Humidity",
+        "nl": "Luchtvochtigheid"
+      }
+    },
+    {
+      "name": "previous_humidity",
+      "type": "number",
+      "title": {
+        "en": "Previous humidity",
+        "nl": "Vorige luchtvochtigheid"
+      }
+    }
+  ]
+}

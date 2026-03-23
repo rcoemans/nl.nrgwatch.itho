@@ -1,0 +1,21 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Startup Counter",
+    "nl": "Opstart Teller"
+  },
+  "desc": {
+    "en": "Number of startups",
+    "nl": "Aantal keer opgestart"
+  },
+  "units": {
+    "en": "",
+    "nl": ""
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/icons/graph.svg",
+  "min": 0,
+  "decimals": 0
+}

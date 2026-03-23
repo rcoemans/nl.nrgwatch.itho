@@ -1,0 +1,23 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Fan Speed (Raw)",
+    "nl": "Ventilatorsnelheid (Raw)"
+  },
+  "desc": {
+    "en": "Current fan speed (0-255)",
+    "nl": "Huidige ventilatorsnelheid (0-255)"
+  },
+  "units": {
+    "en": "",
+    "nl": ""
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/icons/fan.svg",
+  "min": 0,
+  "max": 255,
+  "step": 1,
+  "decimals": 0
+}

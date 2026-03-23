@@ -1,0 +1,24 @@
+{
+  "title": {
+    "en": "The error state changed",
+    "nl": "De foutstatus is veranderd"
+  },
+  "tokens": [
+    {
+      "name": "error_code",
+      "type": "number",
+      "title": {
+        "en": "Error code",
+        "nl": "Foutcode"
+      }
+    },
+    {
+      "name": "previous_error_code",
+      "type": "number",
+      "title": {
+        "en": "Previous error code",
+        "nl": "Vorige foutcode"
+      }
+    }
+  ]
+}

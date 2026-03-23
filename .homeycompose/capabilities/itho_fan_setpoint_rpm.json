@@ -1,0 +1,22 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Fan Setpoint",
+    "nl": "Ventilator Setpoint"
+  },
+  "desc": {
+    "en": "Fan setpoint in RPM",
+    "nl": "Ventilator setpoint in RPM"
+  },
+  "units": {
+    "en": "rpm",
+    "nl": "rpm"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/icons/fan.svg",
+  "min": 0,
+  "max": 3000,
+  "decimals": 0
+}

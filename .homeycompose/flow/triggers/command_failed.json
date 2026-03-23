@@ -1,0 +1,40 @@
+{
+  "title": {
+    "en": "A command failed",
+    "nl": "Een commando is mislukt"
+  },
+  "tokens": [
+    {
+      "name": "command_name",
+      "type": "string",
+      "title": {
+        "en": "Command name",
+        "nl": "Commando naam"
+      }
+    },
+    {
+      "name": "command_value",
+      "type": "string",
+      "title": {
+        "en": "Command value",
+        "nl": "Commando waarde"
+      }
+    },
+    {
+      "name": "error_message",
+      "type": "string",
+      "title": {
+        "en": "Error message",
+        "nl": "Foutmelding"
+      }
+    },
+    {
+      "name": "transport",
+      "type": "string",
+      "title": {
+        "en": "Transport",
+        "nl": "Transport"
+      }
+    }
+  ]
+}

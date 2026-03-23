@@ -1,0 +1,13 @@
+{
+  "title": {
+    "en": "MQTT broker !{{is|is not}} connected",
+    "nl": "MQTT broker !{{is|is niet}} verbonden"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt"
+    }
+  ]
+}

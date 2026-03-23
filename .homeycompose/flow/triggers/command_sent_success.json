@@ -1,0 +1,32 @@
+{
+  "title": {
+    "en": "A command was sent successfully",
+    "nl": "Een commando is succesvol verzonden"
+  },
+  "tokens": [
+    {
+      "name": "command_name",
+      "type": "string",
+      "title": {
+        "en": "Command name",
+        "nl": "Commando naam"
+      }
+    },
+    {
+      "name": "command_value",
+      "type": "string",
+      "title": {
+        "en": "Command value",
+        "nl": "Commando waarde"
+      }
+    },
+    {
+      "name": "transport",
+      "type": "string",
+      "title": {
+        "en": "Transport",
+        "nl": "Transport"
+      }
+    }
+  ]
+}

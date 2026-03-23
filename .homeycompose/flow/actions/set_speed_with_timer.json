@@ -1,0 +1,39 @@
+{
+  "titleFormatted": {
+    "en": "Set the fan speed to [[speed]] for [[seconds]] seconds",
+    "nl": "Stel de ventilatorsnelheid in op [[speed]] voor [[seconds]] seconden"
+  },
+  "hint": {
+    "en": "Sets the fan speed with a timer",
+    "nl": "Stelt de ventilatorsnelheid in met een timer"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=itho-mqtt|itho-api"
+    },
+    {
+      "type": "number",
+      "name": "speed",
+      "title": {
+        "en": "Speed (0-255)",
+        "nl": "Snelheid (0-255)"
+      },
+      "min": 0,
+      "max": 255,
+      "step": 1
+    },
+    {
+      "type": "number",
+      "name": "seconds",
+      "title": {
+        "en": "Seconds",
+        "nl": "Seconden"
+      },
+      "min": 0,
+      "max": 65535,
+      "step": 1
+    }
+  ]
+}

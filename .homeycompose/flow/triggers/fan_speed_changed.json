@@ -1,0 +1,32 @@
+{
+  "title": {
+    "en": "The fan speed changed",
+    "nl": "De ventilatorsnelheid is veranderd"
+  },
+  "tokens": [
+    {
+      "name": "speed_raw",
+      "type": "number",
+      "title": {
+        "en": "Speed (raw)",
+        "nl": "Snelheid (raw)"
+      }
+    },
+    {
+      "name": "speed_percent",
+      "type": "number",
+      "title": {
+        "en": "Speed (%)",
+        "nl": "Snelheid (%)"
+      }
+    },
+    {
+      "name": "previous_speed_raw",
+      "type": "number",
+      "title": {
+        "en": "Previous speed (raw)",
+        "nl": "Vorige snelheid (raw)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Total Operation Hours",
+    "nl": "Totaal Bedrijfsuren"
+  },
+  "desc": {
+    "en": "Total operation hours",
+    "nl": "Totaal aantal bedrijfsuren"
+  },
+  "units": {
+    "en": "h",
+    "nl": "u"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/icons/graph.svg",
+  "min": 0,
+  "decimals": 0
+}
